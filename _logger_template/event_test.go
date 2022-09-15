@@ -214,3 +214,209 @@ func TestEventFatal(t *testing.T) {
 		}
 	})
 }
+
+// Event Format Output Method Tests
+func TestEventTracef(t *testing.T) {
+	var writer bytes.Buffer
+	t.Run("LogBelowThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = DEBUG
+		e.__writer = &writer
+		e.Tracef("%%s %%d", "test", 123)
+		if writer.Len() > 0 {
+			t.Errorf("Expect no output, Got: %%s", writer.String())
+		}
+	})
+
+	t.Run("LogAtThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = TRACE
+		e.__writer = &writer
+		e.Tracef("__%%s__", "test")
+		if !strings.Contains(writer.String(), "__test__") {
+			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
+		}
+	})
+}
+
+func TestEventDebugf(t *testing.T) {
+	var writer bytes.Buffer
+	t.Run("LogBelowThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = INFO
+		e.__writer = &writer
+		e.Debugf("%%s %%d", "test", 123)
+		if writer.Len() > 0 {
+			t.Errorf("Expect no output, Got: %%s", writer.String())
+		}
+	})
+
+	t.Run("LogAtThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = DEBUG
+		e.__writer = &writer
+		e.Debugf("__%%s__", "test")
+		if !strings.Contains(writer.String(), "__test__") {
+			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
+		}
+	})
+
+	t.Run("LogAboveThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = TRACE
+		e.__writer = &writer
+		e.Debugf("__%%s__", "test")
+		if !strings.Contains(writer.String(), "__test__") {
+			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
+		}
+	})
+}
+
+func TestEventInfof(t *testing.T) {
+	var writer bytes.Buffer
+	t.Run("LogBelowThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = WARN
+		e.__writer = &writer
+		e.Infof("%%s %%d", "test", 123)
+		if writer.Len() > 0 {
+			t.Errorf("Expect no output, Got: %%s", writer.String())
+		}
+	})
+
+	t.Run("LogAtThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = INFO
+		e.__writer = &writer
+		e.Infof("__%%s__", "test")
+		if !strings.Contains(writer.String(), "__test__") {
+			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
+		}
+	})
+
+	t.Run("LogAboveThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = DEBUG
+		e.__writer = &writer
+		e.Infof("__%%s__", "test")
+		if !strings.Contains(writer.String(), "__test__") {
+			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
+		}
+	})
+}
+
+func TestEventWarnf(t *testing.T) {
+	var writer bytes.Buffer
+	t.Run("LogBelowThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = ERROR
+		e.__writer = &writer
+		e.Warnf("%%s %%d", "test", 123)
+		if writer.Len() > 0 {
+			t.Errorf("Expect no output, Got: %%s", writer.String())
+		}
+	})
+
+	t.Run("LogAtThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = WARN
+		e.__writer = &writer
+		e.Warnf("__%%s__", "test")
+		if !strings.Contains(writer.String(), "__test__") {
+			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
+		}
+	})
+
+	t.Run("LogAboveThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = INFO
+		e.__writer = &writer
+		e.Warnf("__%%s__", "test")
+		if !strings.Contains(writer.String(), "__test__") {
+			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
+		}
+	})
+}
+
+func TestEventErrorf(t *testing.T) {
+	var writer bytes.Buffer
+	t.Run("LogBelowThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = FATAL
+		e.__writer = &writer
+		e.Errorf("%%s %%d", "test", 123)
+		if writer.Len() > 0 {
+			t.Errorf("Expect no output, Got: %%s", writer.String())
+		}
+	})
+
+	t.Run("LogAtThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = ERROR
+		e.__writer = &writer
+		e.Errorf("__%%s__", "test")
+		if !strings.Contains(writer.String(), "__test__") {
+			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
+		}
+	})
+
+	t.Run("LogAboveThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = WARN
+		e.__writer = &writer
+		e.Errorf("__%%s__", "test")
+		if !strings.Contains(writer.String(), "__test__") {
+			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
+		}
+	})
+}
+
+func TestEventFatalf(t *testing.T) {
+	var writer bytes.Buffer
+	t.Run("LogBelowThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = 10
+		e.__writer = &writer
+		e.Fatalf("%%s %%d", "test", 123)
+		if writer.Len() > 0 {
+			t.Errorf("Expect no output, Got: %%s", writer.String())
+		}
+	})
+
+	t.Run("LogAtThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = FATAL
+		e.__writer = &writer
+		e.Fatalf("__%%s__", "test")
+		if !strings.Contains(writer.String(), "__test__") {
+			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
+		}
+	})
+
+	t.Run("LogAboveThres", func(t *testing.T) {
+		writer.Reset()
+		e := getEvent()
+		e.__levelThres = ERROR
+		e.__writer = &writer
+		e.Fatalf("__%%s__", "test")
+		if !strings.Contains(writer.String(), "__test__") {
+			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
+		}
+	})
+}
