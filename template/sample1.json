@@ -11,6 +11,16 @@
         "__timeFormat": "2006-01-02T15:04:05.999999999Z07:00",
         "__mandatory": "timestamp"
     },
+    "caller": {
+        "__type": "caller",
+        "__maxLen": 100,
+        "__mandatory": "caller"
+    },
+    "severity": {
+        "__type": "string",
+        "__maxLen": 10,
+        "__mandatory": "loglevel"
+    },
     "version": {
         "__type": "string",
         "__omitEmpty": true,
@@ -18,41 +28,31 @@
         "__required": false,
         "__apiAlias": "Version"
     },
-    "number": {
+    "counter": {
         "__type": "int",
         "__required": false,
-        "__apiAlias": "Number"
+        "__apiAlias": "Counter"
     },
-    "caller": {
-        "__type": "caller",
-        "__maxLen": 100,
-        "__mandatory": "caller"
-    },
-    "level": {
-        "__type": "string",
-        "__maxLen": 10,
-        "__mandatory": "loglevel"
-    },
-    "test": {
-        "test2": {
+    "data": {
+        "url": {
             "__type": "string",
             "__omitEmpty": true,
             "__maxLen": 100,
             "__required": false,
-            "__apiAlias": "Test2"
+            "__apiAlias": "IndexUrl"
         },
-        "test3": {
-            "test4": {
+        "request": {
+            "args": {
                 "__type": "string",
                 "__omitEmpty": true,
                 "__maxLen": 100,
-                "__fromEnv": "TEST4",
-                "__apiAlias": "Test4"
+                "__fromEnv": "REQ_ARGS",
+                "__apiAlias": "Args"
             },
-            "test5": {
+            "userID": {
                 "__type": "int",
-                "__fromEnv": "TEST5",
-                "__apiAlias": "Test5"
+                "__fromEnv": "USERID",
+                "__apiAlias": "UserId"
             }
         }
     }
