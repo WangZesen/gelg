@@ -13,7 +13,7 @@ const (
 		"} else {\n" +
 		"out.buf = out.buf[:tmp%d-%d]\n" +
 		"}\n"
-	sectionHeaderLen = 4
+	sectionHeaderLen = 6
 )
 
 var (

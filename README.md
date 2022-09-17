@@ -197,8 +197,8 @@ The definition can be nested, but a field can only have either internal sub-fiel
 - [x] Create benchmark tests for generated code
 - [x] Parse values from environment variables
 - [x] Create unit tests for generated code (90% coverage at least?)
-- [ ] More precise control on output buffer size
-- [ ] Add support for Tracef, Debugf, Infof, ... (is it possible to avoid alloc?)
+- [x] More precise control on output buffer size
+- [x] Add support for Tracef, Debugf, Infof, ... (is it possible to avoid alloc?)
 - [ ] Function wrapper API to trace enter/exit of the function calls
 - [ ] Remove imported packages in generated code if not needed
 - [ ] Add support for log float

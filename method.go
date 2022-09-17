@@ -10,7 +10,6 @@ var (
 	loggerApiMethod             = ""
 	mandatoryMessageEventMethod = ""
 	mandatoryCallerEventMethod  = ""
-	mandatoryLevelEventMethod   = ""
 )
 
 const (
