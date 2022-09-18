@@ -204,7 +204,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	output = fmt.Sprintf(filectx, newMethod, outputBufSize, initMethod, assembleMethod)
+	output = fmt.Sprintf(filectx, newMethod, outputBufSize, initMethod, requiredFieldCheck, assembleMethod)
 	err = writeToFile(path.Join(args.output, "pool.go"), output)
 	if err != nil {
 		log.Fatal(err)

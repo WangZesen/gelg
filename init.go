@@ -20,11 +20,17 @@ func createStringInitMethod(ctx map[string]interface{}, prefix, root string) {
 	} else {
 		out += fmt.Sprintf("e.%s = e.%s[:0]\n", prefix, prefix)
 	}
+	if needChangeFlag(ctx) {
+		out += fmt.Sprintf("e.%s = false\n", addChangeFlagPrefix(prefix))
+	}
 	initMethod += out
 }
 
 func createStringLoggerInitMethod(ctx map[string]interface{}, prefix, root string) {
 	loggerInitMethod += fmt.Sprintf("e.%s = append(e.%s[:0], logger.Data.%s...)\n", prefix, prefix, prefix)
+	if needChangeFlag(ctx) {
+		loggerInitMethod += fmt.Sprintf("e.%s = logger.Data.%s\n", addChangeFlagPrefix(prefix), addChangeFlagPrefix(prefix))
+	}
 }
 
 func createIntInitMethod(ctx map[string]interface{}, prefix, root string) {
@@ -38,9 +44,15 @@ func createIntInitMethod(ctx map[string]interface{}, prefix, root string) {
 	} else {
 		out += fmt.Sprintf("e.%s = 0\n", prefix)
 	}
+	if needChangeFlag(ctx) {
+		out += fmt.Sprintf("e.%s = false\n", addChangeFlagPrefix(prefix))
+	}
 	initMethod += out
 }
 
 func createIntLoggerInitMethod(ctx map[string]interface{}, prefix, root string) {
 	loggerInitMethod += fmt.Sprintf("e.%s = logger.Data.%s\n", prefix, prefix)
+	if needChangeFlag(ctx) {
+		loggerInitMethod += fmt.Sprintf("e.%s = logger.Data.%s\n", addChangeFlagPrefix(prefix), addChangeFlagPrefix(prefix))
+	}
 }

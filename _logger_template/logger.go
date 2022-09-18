@@ -18,12 +18,12 @@ func NewLogger(writer io.Writer, level LogLevel) *Logger {
 	if writer != nil {
 		logger.Writer = writer
 	} else {
-		logger.Writer = DefaultWriter
+		logger.Writer = defaultWriter
 	}
 	if level != NULL {
 		logger.Level = level
 	} else {
-		logger.Level = DefaultLevel
+		logger.Level = defaultLevel
 	}
 	return logger
 }
@@ -34,12 +34,12 @@ func (e *Event) Logger(writer io.Writer, level LogLevel) *Logger {
 	if writer != nil {
 		logger.Writer = writer
 	} else {
-		logger.Writer = DefaultWriter
+		logger.Writer = defaultWriter
 	}
 	if level != NULL {
 		logger.Level = level
 	} else {
-		logger.Level = DefaultLevel
+		logger.Level = defaultLevel
 	}
 	return logger
 }

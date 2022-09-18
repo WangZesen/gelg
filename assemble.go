@@ -19,6 +19,7 @@ const (
 var (
 	assembleMethod                = ""
 	globalAssembleFlagCounter int = 0
+	requiredFieldCheck            = ""
 )
 
 func createStringAssembleMethod(ctx map[string]interface{}, prefix, root string) {
@@ -33,6 +34,9 @@ func createStringAssembleMethod(ctx map[string]interface{}, prefix, root string)
 		out += "}\n"
 	}
 	assembleMethod += out
+	if needChangeFlag(ctx) {
+		requiredFieldCheck += fmt.Sprintf("if !e.%s { ilog.Print(\"Miss Value for %s\") }\n", addChangeFlagPrefix(prefix), prefix)
+	}
 }
 
 func createTimeAssembleMethod(ctx map[string]interface{}, prefix, root string) {
@@ -48,6 +52,9 @@ func createIntAssembleMethod(ctx map[string]interface{}, prefix, root string) {
 	out += fmt.Sprintf("out.buf = strconv.AppendInt(out.buf, e.%s, 10)\n", prefix)
 	out += "out.buf = append(out.buf, \",\"...)\n"
 	assembleMethod += out
+	if needChangeFlag(ctx) {
+		requiredFieldCheck += fmt.Sprintf("if !e.%s { ilog.Print(\"Miss Value for %s\") }\n", addChangeFlagPrefix(prefix), prefix)
+	}
 }
 
 func createLevelAssembleMethod(ctx map[string]interface{}, prefix, root string) {

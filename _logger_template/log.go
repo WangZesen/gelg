@@ -5,6 +5,8 @@ import (
 	"os"
 	"fmt"
 	"strconv"
+
+	ilog "log"
 )
 
 type LogLevel int8
@@ -32,8 +34,9 @@ var LevelStr = map[LogLevel]([]byte){
 
 // Default Writer
 var (
-	DefaultWriter io.Writer = io.Discard
-	DefaultLevel  LogLevel  = INFO
+	defaultWriter io.Writer     = io.Discard
+	defaultLevel  LogLevel      = INFO
+	defaultWarnWriter io.Writer = io.Discard
 )
 
 // Package Init Method
@@ -42,6 +45,19 @@ func init() {
 		noEscapeTable[i] = i >= 0x20 && i != '\\' && i != '"'
 	}
 	collectEnvVar()
+	ilog.SetOutput(defaultWarnWriter)
+}
+
+func GSetDefaultWriter(writer io.Writer) {
+	defaultWriter = writer
+}
+
+func GSetDefaultWarnWriter(writer io.Writer) {
+	defaultWarnWriter = writer
+}
+
+func GSetDefaultLevel(level LogLevel) {
+	defaultLevel = level
 }
 
 func collectEnvVar() {
@@ -53,7 +69,7 @@ func collectEnvVar() {
 
 // Output Method
 func Trace(msg string) {
-	if DefaultLevel <= TRACE {
+	if defaultLevel <= TRACE {
 		e := getEvent()
 		e.setMessage(msg)
 		e.setCaller()
@@ -62,7 +78,7 @@ func Trace(msg string) {
 }
 
 func Debug(msg string) {
-	if DefaultLevel <= DEBUG {
+	if defaultLevel <= DEBUG {
 		e := getEvent()
 		e.setMessage(msg)
 		e.setCaller()
@@ -71,7 +87,7 @@ func Debug(msg string) {
 }
 
 func Info(msg string) {
-	if DefaultLevel <= INFO {
+	if defaultLevel <= INFO {
 		e := getEvent()
 		e.setMessage(msg)
 		e.setCaller()
@@ -80,7 +96,7 @@ func Info(msg string) {
 }
 
 func Warn(msg string) {
-	if DefaultLevel <= WARN {
+	if defaultLevel <= WARN {
 		e := getEvent()
 		e.setMessage(msg)
 		e.setCaller()
@@ -89,7 +105,7 @@ func Warn(msg string) {
 }
 
 func Error(msg string) {
-	if DefaultLevel <= ERROR {
+	if defaultLevel <= ERROR {
 		e := getEvent()
 		e.setMessage(msg)
 		e.setCaller()
@@ -98,7 +114,7 @@ func Error(msg string) {
 }
 
 func Fatal(msg string) {
-	if DefaultLevel <= FATAL {
+	if defaultLevel <= FATAL {
 		e := getEvent()
 		e.setMessage(msg)
 		e.setCaller()
@@ -108,7 +124,7 @@ func Fatal(msg string) {
 
 // Formatted Output Method
 func Tracef(msg string, args... interface{}) {
-	if DefaultLevel <= TRACE {
+	if defaultLevel <= TRACE {
 		e := getEvent()
 		e.setMessage(fmt.Sprintf(msg, args...))
 		e.setCaller()
@@ -117,7 +133,7 @@ func Tracef(msg string, args... interface{}) {
 }
 
 func Debugf(msg string, args... interface{}) {
-	if DefaultLevel <= DEBUG {
+	if defaultLevel <= DEBUG {
 		e := getEvent()
 		e.setMessage(fmt.Sprintf(msg, args...))
 		e.setCaller()
@@ -126,7 +142,7 @@ func Debugf(msg string, args... interface{}) {
 }
 
 func Infof(msg string, args... interface{}) {
-	if DefaultLevel <= INFO {
+	if defaultLevel <= INFO {
 		e := getEvent()
 		e.setMessage(fmt.Sprintf(msg, args...))
 		e.setCaller()
@@ -135,7 +151,7 @@ func Infof(msg string, args... interface{}) {
 }
 
 func Warnf(msg string, args... interface{}) {
-	if DefaultLevel <= WARN {
+	if defaultLevel <= WARN {
 		e := getEvent()
 		e.setMessage(fmt.Sprintf(msg, args...))
 		e.setCaller()
@@ -144,7 +160,7 @@ func Warnf(msg string, args... interface{}) {
 }
 
 func Errorf(msg string, args... interface{}) {
-	if DefaultLevel <= ERROR {
+	if defaultLevel <= ERROR {
 		e := getEvent()
 		e.setMessage(fmt.Sprintf(msg, args...))
 		e.setCaller()
@@ -153,7 +169,7 @@ func Errorf(msg string, args... interface{}) {
 }
 
 func Fatalf(msg string, args... interface{}) {
-	if DefaultLevel <= FATAL {
+	if defaultLevel <= FATAL {
 		e := getEvent()
 		e.setMessage(fmt.Sprintf(msg, args...))
 		e.setCaller()

@@ -23,9 +23,9 @@
     },
     "version": {
         "__type": "string",
-        "__omitEmpty": true,
+        "__omitEmpty": false,
         "__maxLen": 100,
-        "__required": false,
+        "__required": true,
         "__apiAlias": "Version"
     },
     "counter": {

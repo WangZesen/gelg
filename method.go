@@ -33,6 +33,9 @@ func createStringEventMethod(ctx map[string]interface{}, prefix, root string) {
 	out += fmt.Sprintf("} else {\n")
 	out += fmt.Sprintf("e.%s = appendString(e.%s[:0], data[:%d])\n", prefix, prefix, maxLen)
 	out += fmt.Sprintf("}\n")
+	if needChangeFlag(ctx) {
+		out += fmt.Sprintf("e.%s = true\n", addChangeFlagPrefix(prefix))
+	}
 	eventMethod += out + eventMethodEnd
 }
 
@@ -48,6 +51,9 @@ func createStringApiMethod(ctx map[string]interface{}, prefix, root string) {
 	out += fmt.Sprintf("} else {\n")
 	out += fmt.Sprintf("e.%s = appendString(e.%s[:0], data[:%d])\n", prefix, prefix, maxLen)
 	out += fmt.Sprintf("}\n")
+	if needChangeFlag(ctx) {
+		out += fmt.Sprintf("e.%s = true\n", addChangeFlagPrefix(prefix))
+	}
 	apiMethod += out + apiMethodEnd
 }
 
@@ -63,6 +69,9 @@ func createStringLoggerApiMethod(ctx map[string]interface{}, prefix, root string
 	out += fmt.Sprintf("} else {\n")
 	out += fmt.Sprintf("e.%s = appendString(e.%s[:0], data[:%d])\n", prefix, prefix, maxLen)
 	out += fmt.Sprintf("}\n")
+	if needChangeFlag(ctx) {
+		out += fmt.Sprintf("e.%s = true\n", addChangeFlagPrefix(prefix))
+	}
 	loggerApiMethod += out + loggerApiMethodEnd
 }
 
@@ -73,6 +82,9 @@ func createIntEventMethod(ctx map[string]interface{}, prefix, root string) {
 	}
 	out := fmt.Sprintf(eventMethodStart, UpperFirst(apiAlias), "int64")
 	out += fmt.Sprintf("e.%s = data\n", prefix)
+	if needChangeFlag(ctx) {
+		out += fmt.Sprintf("e.%s = true\n", addChangeFlagPrefix(prefix))
+	}
 	eventMethod += out + eventMethodEnd
 }
 
@@ -83,6 +95,9 @@ func createIntApiMethod(ctx map[string]interface{}, prefix, root string) {
 	}
 	out := fmt.Sprintf(apiMethodStart, UpperFirst(apiAlias), "int64")
 	out += fmt.Sprintf("e.%s = data\n", prefix)
+	if needChangeFlag(ctx) {
+		out += fmt.Sprintf("e.%s = true\n", addChangeFlagPrefix(prefix))
+	}
 	apiMethod += out + apiMethodEnd
 }
 
@@ -93,6 +108,9 @@ func createIntLoggerApiMethod(ctx map[string]interface{}, prefix, root string) {
 	}
 	out := fmt.Sprintf(loggerApiMethodStart, UpperFirst(apiAlias), "int64")
 	out += fmt.Sprintf("e.%s = data\n", prefix)
+	if needChangeFlag(ctx) {
+		out += fmt.Sprintf("e.%s = true\n", addChangeFlagPrefix(prefix))
+	}
 	loggerApiMethod += out + loggerApiMethodEnd
 }
 

@@ -136,6 +136,28 @@ Interface of SetXxx:
 ```
 To be implemented
 ```
+
+### array
+```
+required fields:
+{
+    "__type": "array",
+    "__elemType": <one of "string", "int64", "float">,
+    "__maxLen": <int>,
+    "__elemMaxLen": <int>,
+    "__omitEmpty": <bool>, // if set to true, omit this field if the array is empty
+}
+```
+
+```
+optional fields:
+{
+    "__default": <string>, // string that can be used to initialize array with type <__type>: "[\"a\", \"b\"]"
+    "__required": <bool>, // if set to true, it must be assigned value before output unless it has a default value,
+    "__apiAlias": <string>, // unique string for api "Set<string>", if not set, it will be assigned with "Set<Prefix><FieldName>",
+}
+```
+
 ### any
 ```
 To be implemented
@@ -199,6 +221,7 @@ The definition can be nested, but a field can only have either internal sub-fiel
 - [x] Create unit tests for generated code (90% coverage at least?)
 - [x] More precise control on output buffer size
 - [x] Add support for Tracef, Debugf, Infof, ... (is it possible to avoid alloc?)
+- [ ] Add support for log array
 - [ ] Function wrapper API to trace enter/exit of the function calls
 - [ ] Remove imported packages in generated code if not needed
 - [ ] Add support for log float

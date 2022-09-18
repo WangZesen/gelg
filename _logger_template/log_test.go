@@ -14,14 +14,14 @@ import (
 // Api Output Method Tests
 func TestApiTrace(t *testing.T) {
 	var writer bytes.Buffer
-	DefaultWriter = &writer
+	defaultWriter = &writer
 	defer func(){
-		DefaultWriter = io.Discard
-		DefaultLevel = INFO
+		defaultWriter = io.Discard
+		defaultLevel = INFO
 	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = DEBUG
+		defaultLevel = DEBUG
 		Trace("test")
 		if writer.Len() > 0 {
 			t.Errorf("Expect no output, Got: %%s", writer.String())
@@ -30,7 +30,7 @@ func TestApiTrace(t *testing.T) {
 
 	t.Run("LogAtThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = TRACE
+		defaultLevel = TRACE
 		Trace("__test__")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -40,14 +40,14 @@ func TestApiTrace(t *testing.T) {
 
 func TestApiDebug(t *testing.T) {
 	var writer bytes.Buffer
-	DefaultWriter = &writer
+	defaultWriter = &writer
 	defer func(){
-		DefaultWriter = io.Discard
-		DefaultLevel = INFO
+		defaultWriter = io.Discard
+		defaultLevel = INFO
 	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = INFO
+		defaultLevel = INFO
 		Debug("test")
 		if writer.Len() > 0 {
 			t.Errorf("Expect no output, Got: %%s", writer.String())
@@ -56,7 +56,7 @@ func TestApiDebug(t *testing.T) {
 
 	t.Run("LogAtThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = DEBUG
+		defaultLevel = DEBUG
 		Debug("__test__")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -65,7 +65,7 @@ func TestApiDebug(t *testing.T) {
 
 	t.Run("LogAboveThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = TRACE
+		defaultLevel = TRACE
 		Debug("__test__")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -75,14 +75,14 @@ func TestApiDebug(t *testing.T) {
 
 func TestApiInfo(t *testing.T) {
 	var writer bytes.Buffer
-	DefaultWriter = &writer
+	defaultWriter = &writer
 	defer func(){
-		DefaultWriter = io.Discard
-		DefaultLevel = INFO
+		defaultWriter = io.Discard
+		defaultLevel = INFO
 	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = WARN
+		defaultLevel = WARN
 		Info("test")
 		if writer.Len() > 0 {
 			t.Errorf("Expect no output, Got: %%s", writer.String())
@@ -91,7 +91,7 @@ func TestApiInfo(t *testing.T) {
 
 	t.Run("LogAtThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = INFO
+		defaultLevel = INFO
 		Info("__test__")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -100,7 +100,7 @@ func TestApiInfo(t *testing.T) {
 
 	t.Run("LogAboveThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = DEBUG
+		defaultLevel = DEBUG
 		Info("__test__")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -110,14 +110,14 @@ func TestApiInfo(t *testing.T) {
 
 func TestApiWarn(t *testing.T) {
 	var writer bytes.Buffer
-	DefaultWriter = &writer
+	defaultWriter = &writer
 	defer func(){
-		DefaultWriter = io.Discard
-		DefaultLevel = INFO
+		defaultWriter = io.Discard
+		defaultLevel = INFO
 	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = ERROR
+		defaultLevel = ERROR
 		Warn("test")
 		if writer.Len() > 0 {
 			t.Errorf("Expect no output, Got: %%s", writer.String())
@@ -126,7 +126,7 @@ func TestApiWarn(t *testing.T) {
 
 	t.Run("LogAtThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = WARN
+		defaultLevel = WARN
 		Warn("__test__")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -135,7 +135,7 @@ func TestApiWarn(t *testing.T) {
 
 	t.Run("LogAboveThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = INFO
+		defaultLevel = INFO
 		Warn("__test__")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -145,14 +145,14 @@ func TestApiWarn(t *testing.T) {
 
 func TestApiError(t *testing.T) {
 	var writer bytes.Buffer
-	DefaultWriter = &writer
+	defaultWriter = &writer
 	defer func(){
-		DefaultWriter = io.Discard
-		DefaultLevel = INFO
+		defaultWriter = io.Discard
+		defaultLevel = INFO
 	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = FATAL
+		defaultLevel = FATAL
 		Error("test")
 		if writer.Len() > 0 {
 			t.Errorf("Expect no output, Got: %%s", writer.String())
@@ -161,7 +161,7 @@ func TestApiError(t *testing.T) {
 
 	t.Run("LogAtThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = ERROR
+		defaultLevel = ERROR
 		Error("__test__")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -170,7 +170,7 @@ func TestApiError(t *testing.T) {
 
 	t.Run("LogAboveThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = WARN
+		defaultLevel = WARN
 		Error("__test__")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -180,14 +180,14 @@ func TestApiError(t *testing.T) {
 
 func TestApiFatal(t *testing.T) {
 	var writer bytes.Buffer
-	DefaultWriter = &writer
+	defaultWriter = &writer
 	defer func(){
-		DefaultWriter = io.Discard
-		DefaultLevel = INFO
+		defaultWriter = io.Discard
+		defaultLevel = INFO
 	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = 10
+		defaultLevel = 10
 		Fatal("test")
 		if writer.Len() > 0 {
 			t.Errorf("Expect no output, Got: %%s", writer.String())
@@ -196,7 +196,7 @@ func TestApiFatal(t *testing.T) {
 
 	t.Run("LogAtThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = FATAL
+		defaultLevel = FATAL
 		Fatal("__test__")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -205,7 +205,7 @@ func TestApiFatal(t *testing.T) {
 
 	t.Run("LogAboveThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = ERROR
+		defaultLevel = ERROR
 		Fatal("__test__")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -216,14 +216,14 @@ func TestApiFatal(t *testing.T) {
 // Api Format Output Method Tests
 func TestApiTracef(t *testing.T) {
 	var writer bytes.Buffer
-	DefaultWriter = &writer
+	defaultWriter = &writer
 	defer func(){
-		DefaultWriter = io.Discard
-		DefaultLevel = INFO
+		defaultWriter = io.Discard
+		defaultLevel = INFO
 	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = DEBUG
+		defaultLevel = DEBUG
 		Tracef("%%s %%d", "test", 123)
 		if writer.Len() > 0 {
 			t.Errorf("Expect no output, Got: %%s", writer.String())
@@ -232,7 +232,7 @@ func TestApiTracef(t *testing.T) {
 
 	t.Run("LogAtThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = TRACE
+		defaultLevel = TRACE
 		Tracef("__%%s__", "test")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -242,14 +242,14 @@ func TestApiTracef(t *testing.T) {
 
 func TestApiDebugf(t *testing.T) {
 	var writer bytes.Buffer
-	DefaultWriter = &writer
+	defaultWriter = &writer
 	defer func(){
-		DefaultWriter = io.Discard
-		DefaultLevel = INFO
+		defaultWriter = io.Discard
+		defaultLevel = INFO
 	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = INFO
+		defaultLevel = INFO
 		Debugf("%%s %%d", "test", 123)
 		if writer.Len() > 0 {
 			t.Errorf("Expect no output, Got: %%s", writer.String())
@@ -258,7 +258,7 @@ func TestApiDebugf(t *testing.T) {
 
 	t.Run("LogAtThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = DEBUG
+		defaultLevel = DEBUG
 		Debugf("__%%s__", "test")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -267,7 +267,7 @@ func TestApiDebugf(t *testing.T) {
 
 	t.Run("LogAboveThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = TRACE
+		defaultLevel = TRACE
 		Debugf("__%%s__", "test")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -277,14 +277,14 @@ func TestApiDebugf(t *testing.T) {
 
 func TestApiInfof(t *testing.T) {
 	var writer bytes.Buffer
-	DefaultWriter = &writer
+	defaultWriter = &writer
 	defer func(){
-		DefaultWriter = io.Discard
-		DefaultLevel = INFO
+		defaultWriter = io.Discard
+		defaultLevel = INFO
 	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = WARN
+		defaultLevel = WARN
 		Infof("%%s %%d", "test", 123)
 		if writer.Len() > 0 {
 			t.Errorf("Expect no output, Got: %%s", writer.String())
@@ -293,7 +293,7 @@ func TestApiInfof(t *testing.T) {
 
 	t.Run("LogAtThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = INFO
+		defaultLevel = INFO
 		Infof("__%%s__", "test")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -302,7 +302,7 @@ func TestApiInfof(t *testing.T) {
 
 	t.Run("LogAboveThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = DEBUG
+		defaultLevel = DEBUG
 		Infof("__%%s__", "test")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -312,14 +312,14 @@ func TestApiInfof(t *testing.T) {
 
 func TestApiWarnf(t *testing.T) {
 	var writer bytes.Buffer
-	DefaultWriter = &writer
+	defaultWriter = &writer
 	defer func(){
-		DefaultWriter = io.Discard
-		DefaultLevel = INFO
+		defaultWriter = io.Discard
+		defaultLevel = INFO
 	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = ERROR
+		defaultLevel = ERROR
 		Warnf("%%s %%d", "test", 123)
 		if writer.Len() > 0 {
 			t.Errorf("Expect no output, Got: %%s", writer.String())
@@ -328,7 +328,7 @@ func TestApiWarnf(t *testing.T) {
 
 	t.Run("LogAtThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = WARN
+		defaultLevel = WARN
 		Warnf("__%%s__", "test")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -337,7 +337,7 @@ func TestApiWarnf(t *testing.T) {
 
 	t.Run("LogAboveThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = INFO
+		defaultLevel = INFO
 		Warnf("__%%s__", "test")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -347,14 +347,14 @@ func TestApiWarnf(t *testing.T) {
 
 func TestApiErrorf(t *testing.T) {
 	var writer bytes.Buffer
-	DefaultWriter = &writer
+	defaultWriter = &writer
 	defer func(){
-		DefaultWriter = io.Discard
-		DefaultLevel = INFO
+		defaultWriter = io.Discard
+		defaultLevel = INFO
 	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = FATAL
+		defaultLevel = FATAL
 		Errorf("%%s %%d", "test", 123)
 		if writer.Len() > 0 {
 			t.Errorf("Expect no output, Got: %%s", writer.String())
@@ -363,7 +363,7 @@ func TestApiErrorf(t *testing.T) {
 
 	t.Run("LogAtThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = ERROR
+		defaultLevel = ERROR
 		Errorf("__%%s__", "test")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -372,7 +372,7 @@ func TestApiErrorf(t *testing.T) {
 
 	t.Run("LogAboveThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = WARN
+		defaultLevel = WARN
 		Errorf("__%%s__", "test")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -382,14 +382,14 @@ func TestApiErrorf(t *testing.T) {
 
 func TestApiFatalf(t *testing.T) {
 	var writer bytes.Buffer
-	DefaultWriter = &writer
+	defaultWriter = &writer
 	defer func(){
-		DefaultWriter = io.Discard
-		DefaultLevel = INFO
+		defaultWriter = io.Discard
+		defaultLevel = INFO
 	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = 10
+		defaultLevel = 10
 		Fatalf("%%s %%d", "test", 123)
 		if writer.Len() > 0 {
 			t.Errorf("Expect no output, Got: %%s", writer.String())
@@ -398,7 +398,7 @@ func TestApiFatalf(t *testing.T) {
 
 	t.Run("LogAtThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = FATAL
+		defaultLevel = FATAL
 		Fatalf("__%%s__", "test")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())
@@ -407,7 +407,7 @@ func TestApiFatalf(t *testing.T) {
 
 	t.Run("LogAboveThres", func(t *testing.T) {
 		writer.Reset()
-		DefaultLevel = ERROR
+		defaultLevel = ERROR
 		Fatalf("__%%s__", "test")
 		if !strings.Contains(writer.String(), "__test__") {
 			t.Errorf("Expect message with %%s, Got: %%s", "__test__", writer.String())

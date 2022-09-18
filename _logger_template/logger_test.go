@@ -187,10 +187,10 @@ func TestCreateLogger(t *testing.T) {
 	t.Run("DefaultLogger", func(t *testing.T) {
 		e := getEvent()
 		logger := e.Logger(nil, NULL)
-		if !reflect.DeepEqual(logger.Writer, DefaultWriter) {
+		if !reflect.DeepEqual(logger.Writer, defaultWriter) {
 			t.Errorf("Different between created logger.Writer and DefaultWriter")
 		}
-		if !reflect.DeepEqual(logger.Level, DefaultLevel) {
+		if !reflect.DeepEqual(logger.Level, defaultLevel) {
 			t.Errorf("Different between created logger.Level and DefaultLevel")
 		}
 	})
