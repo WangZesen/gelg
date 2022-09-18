@@ -33,20 +33,20 @@ Motivated by the design of [Zerolog](https://github.com/rs/zerolog).
 ```
 goos: linux
 goarch: amd64
-pkg: github.com/WangZesen/EfficientLoggerGenerator/_gen/log
+pkg: test/log
 cpu: Intel(R) Xeon(R) Platinum 8259CL CPU @ 2.50GHz
-BenchmarkEmptyLogBelowLogThreshold-2                            613701565                1.971 ns/op           0 B/op          0 allocs/op
-BenchmarkEmptyLogWithFormatBelowLogThreshold-2                  337366096                3.597 ns/op           0 B/op          0 allocs/op
-BenchmarkAllFieldsLogBelowLogThreshold-2                        23511624                52.63 ns/op            0 B/op          0 allocs/op
-BenchmarkAllFieldsLoggerBelowLogThreshold-2                     603397544                1.978 ns/op           0 B/op          0 allocs/op
-BenchmarkAllFieldsLoggerWithFormatBelowLogThreshold-2           337153574                3.577 ns/op           0 B/op          0 allocs/op
-BenchmarkEmptyLog-2                                               816702              1360 ns/op             216 B/op          2 allocs/op
-BenchmarkAllFieldsLog-2                                           674809              1622 ns/op             216 B/op          2 allocs/op
-BenchmarkAllFieldsLogWithFormat-2                                 628525              1806 ns/op             240 B/op          3 allocs/op
-BenchmarkAllFieldsLogger-2                                        698367              1638 ns/op             216 B/op          2 allocs/op
-BenchmarkAllFieldsLoggerWithFormat-2                              618904              1862 ns/op             240 B/op          3 allocs/op
+BenchmarkEmptyLogBelowLogThreshold-2                            461349763                2.181 ns/op           0 B/op          0 allocs/op
+BenchmarkEmptyLogWithFormatBelowLogThreshold-2                  334602939                3.596 ns/op           0 B/op          0 allocs/op
+BenchmarkAllFieldsLogBelowLogThreshold-2                        21417271                55.31 ns/op            0 B/op          0 allocs/op
+BenchmarkAllFieldsLoggerBelowLogThreshold-2                     525708780                2.309 ns/op           0 B/op          0 allocs/op
+BenchmarkAllFieldsLoggerWithFormatBelowLogThreshold-2           334947140                3.592 ns/op           0 B/op          0 allocs/op
+BenchmarkEmptyLog-2                                               647101              1746 ns/op             216 B/op          2 allocs/op
+BenchmarkAllFieldsLog-2                                           585732              1974 ns/op             216 B/op          2 allocs/op
+BenchmarkAllFieldsLogWithFormat-2                                 524169              2221 ns/op             240 B/op          3 allocs/op
+BenchmarkAllFieldsLogger-2                                        581778              1984 ns/op             216 B/op          2 allocs/op
+BenchmarkAllFieldsLoggerWithFormat-2                              512361              2189 ns/op             240 B/op          3 allocs/op
 PASS
-ok      github.com/WangZesen/EfficientLoggerGenerator/_gen/log  13.003s
+ok      test/log        12.982s
 ```
 
 The generated code contains nested structures, string fields, int fields, **log level**, **timestamp**, **caller**.
@@ -55,7 +55,7 @@ It comes with nearly zero allocation (`2 allocs/op` is due to caller info by `ru
 This library provides highly customizable APIs. The users can use any nested structures and insert built-in fields in any position. Meanwhile, it keeps high speed and low memory footprint.
 
 ```
-ok      github.com/WangZesen/EfficientLoggerGenerator/_gen/log  0.006s  coverage: 95.6% of statements
+ok      test/log        0.004s  coverage: 96.2% of statements
 ```
 
 Also, the tool generates unit tests along with the code, and high percentage of coverage is achieved.
