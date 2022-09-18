@@ -11,6 +11,7 @@ var (
 	loggerMethodTest = ""
 	apiMethodTest    = ""
 	envVarTest       = ""
+	requiredTest     = ""
 	wholeTestStart   = "func Test%sSet%s(t *testing.T) {\n"
 	wholeTestEnd     = "}\n"
 	subTestStart     = "t.Run(\"%s\", func(t *testing.T){\n"
@@ -237,6 +238,14 @@ func createStringEnvTest(ctx map[string]interface{}, prefix, root string) {
 	envVarTest += out
 }
 
+func createStringRequiredTest(ctx map[string]interface{}, prefix, root string) {
+	if needChangeFlag(ctx) {
+		requiredTest += fmt.Sprintf("if !strings.Contains(warn, \"Miss Value for %s\") {\n", prefix)
+		requiredTest += fmt.Sprintf("t.Errorf(\"Expect warning about unset required fields, Got Warn Msg: %%s\", warn)\n")
+		requiredTest += fmt.Sprintf("}\n")
+	}
+}
+
 func createIntBenchmarkTest(ctx map[string]interface{}, prefix, root string) {
 	apiAlias := root
 	if raw, ok := ctx[apiMethod]; ok {
@@ -314,4 +323,12 @@ func createIntEnvTest(ctx map[string]interface{}, prefix, root string) {
 	out += fmt.Sprintf("t.Errorf(\"Expect: %%d, Got: %%d\", %d, e.%s)\n}\n", randInt, prefix)
 	out += subTestEnd
 	envVarTest += out
+}
+
+func createIntRequiredTest(ctx map[string]interface{}, prefix, root string) {
+	if needChangeFlag(ctx) {
+		requiredTest += fmt.Sprintf("if !strings.Contains(warn, \"Miss Value for %s\") {\n", prefix)
+		requiredTest += fmt.Sprintf("t.Errorf(\"Expect warning about unset required fields, Got Warn Msg: %%s\", warn)\n")
+		requiredTest += fmt.Sprintf("}\n")
+	}
 }

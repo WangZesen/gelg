@@ -73,6 +73,7 @@ func recursiveGenerate(ctx map[string]interface{}, prefix, root string) {
 			createStringEventMethodTest(ctx, prefix, root)
 			createStringLoggerMethodTest(ctx, prefix, root)
 			createStringApiMethodTest(ctx, prefix, root)
+			createStringRequiredTest(ctx, prefix, root)
 		case "int":
 			createIntDefinition(ctx, prefix, root)
 			createIntNew(ctx, prefix, root)
@@ -281,7 +282,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	output = fmt.Sprintf(filectx, apiMethodTest, envVarTest)
+	output = fmt.Sprintf(filectx, apiMethodTest, envVarTest, requiredTest)
 	err = writeToFile(path.Join(args.output, "log_test.go"), output)
 	if err != nil {
 		log.Fatal(err)

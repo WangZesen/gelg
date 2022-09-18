@@ -34,9 +34,10 @@ var LevelStr = map[LogLevel]([]byte){
 
 // Default Writer
 var (
-	defaultWriter io.Writer     = io.Discard
-	defaultLevel  LogLevel      = INFO
-	defaultWarnWriter io.Writer = io.Discard
+	defaultWriter io.Writer     = os.Stdout
+	defaultWarnWriter io.Writer = os.Stderr
+	defaultLevel LogLevel       = INFO
+	warnLogger *ilog.Logger     = ilog.New(os.Stderr, "", ilog.Ldate | ilog.Ltime)
 )
 
 // Package Init Method
@@ -54,6 +55,7 @@ func GSetDefaultWriter(writer io.Writer) {
 
 func GSetDefaultWarnWriter(writer io.Writer) {
 	defaultWarnWriter = writer
+	warnLogger = ilog.New(writer, "", ilog.Ldate | ilog.Ltime)
 }
 
 func GSetDefaultLevel(level LogLevel) {

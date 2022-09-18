@@ -1,6 +1,8 @@
 package log
 
 import (
+	"io"
+	"os"
 	"strings"
 	"testing"
 	"bytes"
@@ -12,6 +14,10 @@ import (
 // Event Output Method Tests
 func TestEventTrace(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		e := getEvent()
@@ -37,6 +43,10 @@ func TestEventTrace(t *testing.T) {
 
 func TestEventDebug(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		e := getEvent()
@@ -73,6 +83,10 @@ func TestEventDebug(t *testing.T) {
 
 func TestEventInfo(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		e := getEvent()
@@ -109,6 +123,10 @@ func TestEventInfo(t *testing.T) {
 
 func TestEventWarn(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		e := getEvent()
@@ -145,6 +163,10 @@ func TestEventWarn(t *testing.T) {
 
 func TestEventError(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		e := getEvent()
@@ -181,6 +203,10 @@ func TestEventError(t *testing.T) {
 
 func TestEventFatal(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		e := getEvent()
@@ -218,6 +244,10 @@ func TestEventFatal(t *testing.T) {
 // Event Format Output Method Tests
 func TestEventTracef(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		e := getEvent()
@@ -243,6 +273,10 @@ func TestEventTracef(t *testing.T) {
 
 func TestEventDebugf(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		e := getEvent()
@@ -279,6 +313,10 @@ func TestEventDebugf(t *testing.T) {
 
 func TestEventInfof(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		e := getEvent()
@@ -315,6 +353,10 @@ func TestEventInfof(t *testing.T) {
 
 func TestEventWarnf(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		e := getEvent()
@@ -351,6 +393,10 @@ func TestEventWarnf(t *testing.T) {
 
 func TestEventErrorf(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		e := getEvent()
@@ -387,6 +433,10 @@ func TestEventErrorf(t *testing.T) {
 
 func TestEventFatalf(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		e := getEvent()

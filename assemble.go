@@ -35,7 +35,7 @@ func createStringAssembleMethod(ctx map[string]interface{}, prefix, root string)
 	}
 	assembleMethod += out
 	if needChangeFlag(ctx) {
-		requiredFieldCheck += fmt.Sprintf("if !e.%s { ilog.Print(\"Miss Value for %s\") }\n", addChangeFlagPrefix(prefix), prefix)
+		requiredFieldCheck += fmt.Sprintf("if !e.%s { warnLogger.Print(\"Miss Value for %s\") }\n", addChangeFlagPrefix(prefix), prefix)
 	}
 }
 
@@ -53,7 +53,7 @@ func createIntAssembleMethod(ctx map[string]interface{}, prefix, root string) {
 	out += "out.buf = append(out.buf, \",\"...)\n"
 	assembleMethod += out
 	if needChangeFlag(ctx) {
-		requiredFieldCheck += fmt.Sprintf("if !e.%s { ilog.Print(\"Miss Value for %s\") }\n", addChangeFlagPrefix(prefix), prefix)
+		requiredFieldCheck += fmt.Sprintf("if !e.%s { warnLogger.Print(\"Miss Value for %s\") }\n", addChangeFlagPrefix(prefix), prefix)
 	}
 }
 

@@ -5,6 +5,8 @@ import (
 	"bytes"
 	"strings"
 	"reflect"
+	"io"
+	"os"
 )
 
 // Logger Method Tests
@@ -13,6 +15,10 @@ import (
 // Logger Output Method Tests
 func TestLoggerTrace(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		logger := NewLogger(&writer, DEBUG)
@@ -34,6 +40,10 @@ func TestLoggerTrace(t *testing.T) {
 
 func TestLoggerDebug(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		logger := NewLogger(&writer, INFO)
@@ -64,6 +74,10 @@ func TestLoggerDebug(t *testing.T) {
 
 func TestLoggerInfo(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		logger := NewLogger(&writer, WARN)
@@ -94,6 +108,10 @@ func TestLoggerInfo(t *testing.T) {
 
 func TestLoggerWarn(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		logger := NewLogger(&writer, ERROR)
@@ -124,6 +142,10 @@ func TestLoggerWarn(t *testing.T) {
 
 func TestLoggerError(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		logger := NewLogger(&writer, FATAL)
@@ -154,6 +176,10 @@ func TestLoggerError(t *testing.T) {
 
 func TestLoggerFatal(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		logger := NewLogger(&writer, 10)
@@ -184,6 +210,10 @@ func TestLoggerFatal(t *testing.T) {
 
 // Create Logger
 func TestCreateLogger(t *testing.T) {
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("DefaultLogger", func(t *testing.T) {
 		e := getEvent()
 		logger := e.Logger(nil, NULL)
@@ -210,6 +240,10 @@ func TestCreateLogger(t *testing.T) {
 // Logger Format Output Method Tests
 func TestLoggerTracef(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		logger := NewLogger(&writer, DEBUG)
@@ -231,6 +265,10 @@ func TestLoggerTracef(t *testing.T) {
 
 func TestLoggerDebugf(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		logger := NewLogger(&writer, INFO)
@@ -261,6 +299,10 @@ func TestLoggerDebugf(t *testing.T) {
 
 func TestLoggerInfof(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		logger := NewLogger(&writer, WARN)
@@ -291,6 +333,10 @@ func TestLoggerInfof(t *testing.T) {
 
 func TestLoggerWarnf(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		logger := NewLogger(&writer, ERROR)
@@ -321,6 +367,10 @@ func TestLoggerWarnf(t *testing.T) {
 
 func TestLoggerErrorf(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		logger := NewLogger(&writer, FATAL)
@@ -351,6 +401,10 @@ func TestLoggerErrorf(t *testing.T) {
 
 func TestLoggerFatalf(t *testing.T) {
 	var writer bytes.Buffer
+	GSetDefaultWarnWriter(io.Discard)
+	defer func(){
+		GSetDefaultWarnWriter(os.Stderr)
+	}()
 	t.Run("LogBelowThres", func(t *testing.T) {
 		writer.Reset()
 		logger := NewLogger(&writer, 10)
