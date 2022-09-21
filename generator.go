@@ -12,7 +12,7 @@ import (
 	"strconv"
 	"strings"
 
-	template "github.com/WangZesen/EfficientLoggerGenerator/logger_template"
+	template "github.com/WangZesen/gelg/logger_template"
 )
 
 var args = struct {

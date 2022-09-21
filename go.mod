@@ -1,3 +1,3 @@
-module github.com/WangZesen/EfficientLoggerGenerator
+module github.com/WangZesen/gelg
 
 go 1.19
