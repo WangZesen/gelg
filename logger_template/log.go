@@ -1,4 +1,6 @@
-/*
+package template
+
+var TLog string = `/*
 Package for the generated logger
 
 General Usage:
@@ -227,3 +229,4 @@ func Fatalf(msg string, args... interface{}) {
 func _unused_log() string {
 	return os.Getenv("UNUSED") + strconv.Itoa(123)
 }
+`

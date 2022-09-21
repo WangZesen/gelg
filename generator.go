@@ -11,18 +11,18 @@ import (
 	"path"
 	"strconv"
 	"strings"
+
+	template "github.com/WangZesen/EfficientLoggerGenerator/logger_template"
 )
 
 var args = struct {
-	output   string
-	config   string
-	template string
+	output string
+	config string
 }{}
 
 func init() {
 	flag.StringVar(&(args.output), "output", "./_gen/log", "output directory")
-	flag.StringVar(&(args.config), "config", "./template/sample1.json", "json directory")
-	flag.StringVar(&(args.template), "template", "./_logger_template", "logger templates")
+	flag.StringVar(&(args.config), "config", "./json_template/sample.json", "json directory")
 }
 
 func loadJson(config string) (map[string]interface{}, error) {
@@ -141,7 +141,7 @@ func writeToFile(filename, content string) error {
 	cmd := exec.Command("gofmt", "-w", filename)
 	err = cmd.Run()
 	if err != nil {
-		return err
+		return fmt.Errorf("Failed at formatting file: %s", filename)
 	}
 	return nil
 }
@@ -181,108 +181,61 @@ func main() {
 	log.Printf("Create Directory: %s", args.output)
 	os.Mkdir(args.output, os.ModePerm)
 
-	filectx, err := loadFromFile(path.Join(args.template, "event.go"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	output := fmt.Sprintf(filectx, eventDefinition, eventMethod, mandatoryMessageEventMethod, mandatoryCallerEventMethod)
+	output := fmt.Sprintf(template.TEvent, eventDefinition, eventMethod, mandatoryMessageEventMethod, mandatoryCallerEventMethod)
 	err = writeToFile(path.Join(args.output, "event.go"), output)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	filectx, err = loadFromFile(path.Join(args.template, "log.go"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	output = fmt.Sprintf(filectx, envMethod, apiMethod)
+	output = fmt.Sprintf(template.TLog, envMethod, apiMethod)
 	err = writeToFile(path.Join(args.output, "log.go"), output)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	filectx, err = loadFromFile(path.Join(args.template, "pool.go"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	output = fmt.Sprintf(filectx, newMethod, outputBufSize, initMethod, requiredFieldCheck, assembleMethod)
+	output = fmt.Sprintf(template.TPool, newMethod, outputBufSize, initMethod, requiredFieldCheck, assembleMethod)
 	err = writeToFile(path.Join(args.output, "pool.go"), output)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	filectx, err = loadFromFile(path.Join(args.template, "logger.go"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	output = fmt.Sprintf(filectx, loggerInitMethod, loggerApiMethod)
+	output = fmt.Sprintf(template.TLogger, loggerInitMethod, loggerApiMethod)
 	err = writeToFile(path.Join(args.output, "logger.go"), output)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	filectx, err = loadFromFile(path.Join(args.template, "env.go"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	output = fmt.Sprintf(filectx, eventDefinition)
+	output = fmt.Sprintf(template.TEnv, eventDefinition)
 	err = writeToFile(path.Join(args.output, "env.go"), output)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	filectx, err = loadFromFile(path.Join(args.template, "utils.go"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	output = filectx
+	output = template.TUtils
 	err = writeToFile(path.Join(args.output, "utils.go"), output)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// // Generate Test Cases
-	// cmd := exec.Command("gotests", "-w", "-all", args.output)
-	// err = cmd.Run()
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	filectx, err = loadFromFile(path.Join(args.template, "benchmark_test.go"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	output = fmt.Sprintf(filectx, benchmarkTest[1:], benchmarkTest[1:], benchmarkTest[1:], benchmarkTest[1:], benchmarkTest[1:], benchmarkTest[1:], benchmarkTest[1:])
+	output = fmt.Sprintf(template.TBenchmarkTest, benchmarkTest[1:], benchmarkTest[1:], benchmarkTest[1:], benchmarkTest[1:], benchmarkTest[1:], benchmarkTest[1:], benchmarkTest[1:])
 	err = writeToFile(path.Join(args.output, "benchmark_test.go"), output)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	filectx, err = loadFromFile(path.Join(args.template, "event_test.go"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	output = fmt.Sprintf(filectx, eventMethodTest)
+	output = fmt.Sprintf(template.TEventTest, eventMethodTest)
 	err = writeToFile(path.Join(args.output, "event_test.go"), output)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	filectx, err = loadFromFile(path.Join(args.template, "logger_test.go"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	output = fmt.Sprintf(filectx, loggerMethodTest)
+	output = fmt.Sprintf(template.TLoggerTest, loggerMethodTest)
 	err = writeToFile(path.Join(args.output, "logger_test.go"), output)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	filectx, err = loadFromFile(path.Join(args.template, "log_test.go"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	output = fmt.Sprintf(filectx, apiMethodTest, envVarTest, requiredTest)
+	output = fmt.Sprintf(template.TLogTest, apiMethodTest, envVarTest, requiredTest)
 	err = writeToFile(path.Join(args.output, "log_test.go"), output)
 	if err != nil {
 		log.Fatal(err)
