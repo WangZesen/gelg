@@ -21,7 +21,7 @@ var args = struct {
 }{}
 
 func init() {
-	flag.StringVar(&(args.output), "output", "./_gen/log", "output directory")
+	flag.StringVar(&(args.output), "output", "./_gen/log", "output directory (if exist, old folder will be moved to <out>.bak for backup)")
 	flag.StringVar(&(args.config), "config", "./json_template/sample.json", "json directory")
 }
 

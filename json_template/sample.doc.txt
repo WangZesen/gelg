@@ -1,0 +1,293 @@
+package log // import "github.com/WangZesen/EfficientLoggerGenerator/_gen/log"
+
+Package for the generated logger
+
+General Usage:
+  - Insert the code into your projects
+  - import by 'log "<package-name>/<rel-path-to-logger-in-proj>"'
+
+There are several components:
+  - Event
+  - Logger
+
+Event:
+  - after setting a value by log.SetXxx, it will return an event
+  - event has methods to continue setting values using (*Event).SetXxx (defined
+    by apiAlias)
+  - event has methods to log using (*Event).Info, (*Event).Infof, (*Event).Warn,
+    ... (log in format/plain string in 6 levels)
+  - event has method to create logger using (*Event).Logger, it will create
+    logger which uses the values in the Event as default value
+
+Logger:
+  - logger is initiated by (*Event).Logger or log.NewLogger
+  - logger has methods to continue setting values using (*Event).SetXxx (defined
+    by apiAlias), which will return an Event
+  - event has methods to log using (*Event).Info, (*Event).Infof, (*Event).Warn,
+    ... (log in format/plain string in 6 levels)
+
+CONSTANTS
+
+const (
+	NULL logLevel = iota
+	TRACE
+	DEBUG
+	INFO
+	WARN
+	ERROR
+	FATAL
+)
+    Logging Levels: 6 levels in total. Trace, Debug, Info, Warn, Error, Fatal
+
+
+FUNCTIONS
+
+func Debug(msg string)
+    log plain string at DEBUG level
+
+func Debugf(msg string, args ...interface{})
+    log format string with arguments at DEBUG level
+
+func Error(msg string)
+    log plain string at ERROR level
+
+func Errorf(msg string, args ...interface{})
+    log format string with arguments at ERROR level
+
+func Fatal(msg string)
+    log plain string at FATAL level
+
+func Fatalf(msg string, args ...interface{})
+    log format string with arguments at FATAL level
+
+func GSetDefaultLevel(level logLevel)
+    set the default level for logging. default is INFO
+
+func GSetDefaultWarnWriter(writer io.Writer)
+    set the default writer for warning of logging (unset required fields, etc.).
+    default is os.Stderr
+
+func GSetDefaultWriter(writer io.Writer)
+    set the default writer for logging. default is os.Stdout
+
+func Info(msg string)
+    log plain string at INFO level
+
+func Infof(msg string, args ...interface{})
+    log format string with arguments at INFO level
+
+func Trace(msg string)
+    log plain string at TRACE level
+
+func Tracef(msg string, args ...interface{})
+    log format string with arguments at TRACE level
+
+func Warn(msg string)
+    log plain string at WARN level
+
+func Warnf(msg string, args ...interface{})
+    log format string with arguments at WARN level
+
+
+TYPES
+
+type Event struct {
+
+	// log schema version
+	Version []byte
+
+	// counter information
+	Counter int64
+	Data    struct {
+		// website url
+		Url     []byte
+		Request struct {
+			// request argument
+			Args []byte
+			// user id
+			UserID int64
+		}
+	}
+	// [Built-in Message]: logging message
+	Message []byte
+	// [Built-in Caller]: caller stack at logging
+	Caller []byte
+	// Has unexported fields.
+}
+    Event Definition
+
+func SetArgs(data string) *Event
+    Setter method of Data.Request.Args
+
+    Description: request argument
+
+func SetCounter(data int64) *Event
+    Setter method of Counter
+
+    Description: counter information
+
+func SetUrl(data string) *Event
+    Setter method of Data.Url
+
+    Description: website url
+
+func SetUserID(data int64) *Event
+    Setter method of Data.Request.UserID
+
+    Description: user id
+
+func SetVersion(data string) *Event
+    Setter method of Version
+
+    Description: log schema version
+
+func (e *Event) Debug(msg string)
+    log plain string at DEBUG level
+
+func (e *Event) Debugf(msg string, args ...interface{})
+    log format string with arguments at DEBUG level
+
+func (e *Event) Error(msg string)
+    log plain string at ERROR level
+
+func (e *Event) Errorf(msg string, args ...interface{})
+    log format string with arguments at ERROR level
+
+func (e *Event) Fatal(msg string)
+    log plain string at FATAL level
+
+func (e *Event) Fatalf(msg string, args ...interface{})
+    log format string with arguments at FATAL level
+
+func (e *Event) Info(msg string)
+    log plain string at INFO level
+
+func (e *Event) Infof(msg string, args ...interface{})
+    log format string with arguments at INFO level
+
+func (e *Event) Logger(writer io.Writer, level logLevel) *Logger
+    Create logger with preset fields
+
+    Inputs:
+      - writer: writer that fulfills io.Writer interface, pass nil if using
+        default writer
+      - level: logging level for the new logger, pass NULL (constant defined in
+        this package) if using default level
+
+func (e *Event) SetArgs(data string) *Event
+    Setter method of Data.Request.Args on event
+
+    Description: request argument
+
+func (e *Event) SetCounter(data int64) *Event
+    Setter method of Counter on event
+
+    Description: counter information
+
+func (e *Event) SetUrl(data string) *Event
+    Setter method of Data.Url on event
+
+    Description: website url
+
+func (e *Event) SetUserID(data int64) *Event
+    Setter method of Data.Request.UserID on event
+
+    Description: user id
+
+func (e *Event) SetVersion(data string) *Event
+    Setter method of Version on event
+
+    Description: log schema version
+
+func (e *Event) Trace(msg string)
+    log plain string at TRACE level
+
+func (e *Event) Tracef(msg string, args ...interface{})
+    log format string with arguments at TRACE level
+
+func (e *Event) Warn(msg string)
+    log plain string at WARN level
+
+func (e *Event) Warnf(msg string, args ...interface{})
+    log format string with arguments at WARN level
+
+type Logger struct {
+	// Event with pre-set/default values
+	Data *Event
+	// Writer for the logger
+	Writer io.Writer
+	// Logging level for the logger
+	Level logLevel
+}
+
+func NewLogger(writer io.Writer, level logLevel) *Logger
+    Create logger without any preset fields (except for defaults or from envs,
+    etc.)
+
+    Inputs:
+      - writer: writer that fulfills io.Writer interface, pass nil if using
+        default writer
+      - level: logging level for the new logger, pass NULL (constant defined in
+        this package) if using default level
+
+func (logger *Logger) Debug(msg string)
+    log plain string at DEBUG level
+
+func (logger *Logger) Debugf(msg string, args ...interface{})
+    log format string with arguments at DEBUG level
+
+func (logger *Logger) Error(msg string)
+    log plain string at ERROR level
+
+func (logger *Logger) Errorf(msg string, args ...interface{})
+    log format string with arguments at ERROR level
+
+func (logger *Logger) Fatal(msg string)
+    log plain string at FATAL level
+
+func (logger *Logger) Fatalf(msg string, args ...interface{})
+    log format string with arguments at FATAL level
+
+func (logger *Logger) Info(msg string)
+    log plain string at INFO level
+
+func (logger *Logger) Infof(msg string, args ...interface{})
+    log format string with arguments at INFO level
+
+func (logger *Logger) SetArgs(data string) *Event
+    Setter method of Data.Request.Args on logger
+
+    Description: request argument
+
+func (logger *Logger) SetCounter(data int64) *Event
+    Setter method of Counter on logger
+
+    Description: counter information
+
+func (logger *Logger) SetUrl(data string) *Event
+    Setter method of Data.Url on logger
+
+    Description: website url
+
+func (logger *Logger) SetUserID(data int64) *Event
+    Setter method of Data.Request.UserID on logger
+
+    Description: user id
+
+func (logger *Logger) SetVersion(data string) *Event
+    Setter method of Version on logger
+
+    Description: log schema version
+
+func (logger *Logger) Trace(msg string)
+    log plain string at TRACE level
+
+func (logger *Logger) Tracef(msg string, args ...interface{})
+    log format string with arguments at TRACE level
+
+func (logger *Logger) Warn(msg string)
+    log plain string at WARN level
+
+func (logger *Logger) Warnf(msg string, args ...interface{})
+    log format string with arguments at WARN level
+

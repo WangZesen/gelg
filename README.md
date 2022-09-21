@@ -1,6 +1,6 @@
-# Efficient Logger Generator in GoLang (ELG)
+# GoLang Efficient Logger Generator (gelg)
 
-HELG is a logger generator which takes a JSON file as input, and generate highly efficient logger code in GoLang allowing insertion in any project with worrying about dependencies.
+GELG is a logger generator which takes a JSON file as input, and generate highly efficient logger code in GoLang allowing insertion in any project with worrying about dependencies.
 
 The JSON file defines the format and the structure of the logging message, also defines customizable APIs for using.
 
@@ -60,15 +60,51 @@ ok      test/log        0.004s  coverage: 96.2% of statements
 
 Also, the tool generates unit tests along with the code, and high percentage of coverage is achieved.
 
-*The result is based on the input JSON file at [template/sample1.json](./template/sample1.json).*
+*The result is based on the input JSON file at [json_template/sample.json](./json_template/sample.json).*
 
 ## How to Use
 
-First design a JSON file describing the log message structure and content, then use the generator to generate code and its associated benchmark tests and unit tests. Then it's ready to go! Feel free to insert the generated code in your projects.
+### Install
+```
+go install github.com/WangZesen/EfficientLoggerGenerator@latest
+```
 
-## Supported Types
+Make sure `$GOPATH/bin` has been included in `$PATH`.
+Or pre-built binary can be downloaded at [Release]().
 
-### string
+### Generate
+
+First design a JSON file describing the log message structure and content, then use the generator to generate code and its associated benchmark tests and unit tests. Then it's ready to go! Insert the generated code in your projects.
+
+```
+# For help
+gelg -h
+
+# Generate
+gelg -output <output directory> -config <json config>
+```
+
+### Doc
+```
+go doc -all <path-to-generated-dir>
+```
+
+An example of generated doc can be found at [json_template/sample.doc.txt](./json_template/sample.doc.txt).
+
+### Test
+```
+# Test & Coverage test
+go test <path-to-generated-dir> -cover
+
+# Benchmark test
+cd <path-to-generated-dir> && go test -bench=. -benchmem
+```
+
+## Design of JSON Config
+
+### Supported Types
+
+#### string
 ```
 required fields:
 {
@@ -89,7 +125,7 @@ optional fields (item comes first has higher priority):
 }
 ```
 
-### time.Time
+#### time.Time
 ```
 required fields:
 {
@@ -111,7 +147,7 @@ optional fields (item comes first has higher priority):
 }
 ```
 
-### int64
+#### int64
 ```
 required fields:
 {
@@ -135,12 +171,12 @@ Interface of SetXxx:
     Input: (data int64)
 ```
 
-### float
+#### float
 ```
 To be implemented
 ```
 
-### array
+#### array
 ```
 required fields:
 {
@@ -162,15 +198,15 @@ optional fields:
 }
 ```
 
-### any
+#### any
 ```
 To be implemented
 ```
 
-## Log Message Definition
+### Log Message Definition
 Log message is defined using json format with some necessary fields.
 
-### Mandatory Fields
+#### Mandatory Fields
 
 The names of mandatory fields
 
@@ -211,25 +247,13 @@ The design allows users to embed the mandatory fields in any structures and leve
 
 The mandatory fields can be omitted.
 
-### Body
+#### Body
 
 The other parts of the message definition is json following the supported types.
 
 The definition can be nested, but a field can only have either internal sub-fields (pre-set fields start with "__") or external sub-fields (fields with any name except for internal ones).
 
-## Todo
-
-- [x] Escape detection of string
-- [x] Add support for log int
-- [x] Add support for caller
-- [x] Add support for log level
-- [x] Add support for level filter
-- [x] Create benchmark tests for generated code
-- [x] Parse values from environment variables
-- [x] Create unit tests for generated code (90% coverage at least?)
-- [x] More precise control on output buffer size
-- [x] Add support for Tracef, Debugf, Infof, ... (is it possible to avoid alloc?)
+## Future Work
 - [ ] Add support for log array
 - [ ] Function wrapper API to trace enter/exit of the function calls
-- [ ] Remove imported packages in generated code if not needed
 - [ ] Add support for log float
