@@ -60,7 +60,7 @@ func createIntAssembleMethod(ctx map[string]interface{}, prefix, root string) {
 func createLevelAssembleMethod(ctx map[string]interface{}, prefix, root string) {
 	out := ""
 	out += fmt.Sprintf("out.buf = append(out.buf, \"\\\"%s\\\":\\\"\"...)\n", root)
-	out += fmt.Sprintf("out.buf = append(out.buf, LevelStr[level]...)\n")
+	out += fmt.Sprintf("out.buf = append(out.buf, levelStr[level]...)\n")
 	out += "out.buf = append(out.buf, \"\\\",\"...)\n"
 	assembleMethod += out
 }

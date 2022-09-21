@@ -30,7 +30,24 @@ func addChangeFlagPrefix(name string) string {
 	return ret + changeFlagPrefix + fields[len(fields)-1]
 }
 
+func createBuiltInMessageDefinition(ctx map[string]interface{}, prefix, root string) {
+	eventDefinition += fmt.Sprintf("// [Built-in Message]: %s\n", ctx[descriptionField].(string))
+	eventDefinition += fmt.Sprintf("%s []byte\n", UpperFirst(root))
+	if needChangeFlag(ctx) {
+		eventDefinition += fmt.Sprintf("%s bool\n", addChangeFlagPrefix(UpperFirst(root)))
+	}
+}
+
+func createBuiltInCallerDefinition(ctx map[string]interface{}, prefix, root string) {
+	eventDefinition += fmt.Sprintf("// [Built-in Caller]: %s\n", ctx[descriptionField].(string))
+	eventDefinition += fmt.Sprintf("%s []byte\n", UpperFirst(root))
+	if needChangeFlag(ctx) {
+		eventDefinition += fmt.Sprintf("%s bool\n", addChangeFlagPrefix(UpperFirst(root)))
+	}
+}
+
 func createStringDefinition(ctx map[string]interface{}, prefix, root string) {
+	eventDefinition += fmt.Sprintf("// %s\n", ctx[descriptionField].(string))
 	eventDefinition += fmt.Sprintf("%s []byte\n", UpperFirst(root))
 	if needChangeFlag(ctx) {
 		eventDefinition += fmt.Sprintf("%s bool\n", addChangeFlagPrefix(UpperFirst(root)))
@@ -38,6 +55,7 @@ func createStringDefinition(ctx map[string]interface{}, prefix, root string) {
 }
 
 func createIntDefinition(ctx map[string]interface{}, prefix, root string) {
+	eventDefinition += fmt.Sprintf("// %s\n", ctx[descriptionField].(string))
 	eventDefinition += fmt.Sprintf("%s int64\n", UpperFirst(root))
 	if needChangeFlag(ctx) {
 		eventDefinition += fmt.Sprintf("%s bool\n", addChangeFlagPrefix(UpperFirst(root)))

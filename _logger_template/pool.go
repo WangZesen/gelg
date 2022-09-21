@@ -7,7 +7,7 @@ import (
 	ilog "log"
 )
 
-var EventPool = sync.Pool{
+var eventPool = sync.Pool{
 	New: func() interface{} {
 		e := &Event{}
 		// Create New Event
@@ -16,20 +16,20 @@ var EventPool = sync.Pool{
 	},
 }
 
-type OutputBuf struct {
+type outputBuf struct {
 	buf []byte
 }
 
-var OutputPool = sync.Pool{
+var outputPool = sync.Pool{
 	New: func() interface{} {
-		return &OutputBuf{
+		return &outputBuf{
 			buf: make([]byte, 0, %d),
 		}
 	},
 }
 
 func getEvent() *Event {
-	e := EventPool.Get().(*Event)
+	e := eventPool.Get().(*Event)
 	e.__levelThres = defaultLevel
 	e.__writer = defaultWriter
 	// Initialize Event
@@ -42,22 +42,22 @@ func checkRequiredFields(e *Event) {
 	%s
 }
 
-func putEvent(e *Event, level LogLevel) {
+func putEvent(e *Event, level logLevel) {
 	if level > NULL {
 		checkRequiredFields(e)
 		assembleWrite(e, level)
 	}
-	EventPool.Put(e)
+	eventPool.Put(e)
 }
 
-func assembleWrite(e *Event, level LogLevel) {
-	out := OutputPool.Get().(*OutputBuf)
+func assembleWrite(e *Event, level logLevel) {
+	out := outputPool.Get().(*outputBuf)
 	
 	// Assemble Log Message
 	%s
 
 	e.__writer.Write(out.buf)
-	OutputPool.Put(out)
+	outputPool.Put(out)
 }
 
 // Dummy Function that Make Imported Packages Useful

@@ -74,7 +74,8 @@ required fields:
 {
     "__type": "string", // __type has to be string
     "__omitEmpty": <bool>, // if set to true, omit this field if it's empty
-    "__maxLen": <int>, // length in maximum
+    "__maxLen": <int>, // length in maximum,
+    "__description": <stirng>, // short description for the field
 }
 ```
 
@@ -96,6 +97,7 @@ required fields:
     "__fromCaller": <bool>, // if set to true, use time at logging as default value. This will set the field to be required and not changable (it means ignoring all optional fields)
     "__timeFormat": <string>, // string to specify time format, like time.RFC3339Nano
     "__omitEmpty": <bool>, // if set to true, omit this field if it's empty
+    "__description": <stirng>, // short description for the field
 }
 ```
 
@@ -114,6 +116,7 @@ optional fields (item comes first has higher priority):
 required fields:
 {
     "__type": "int", // __type has to be time
+    "__description": <stirng>, // short description for the field
 }
 ```
 
@@ -146,6 +149,7 @@ required fields:
     "__maxLen": <int>,
     "__elemMaxLen": <int>,
     "__omitEmpty": <bool>, // if set to true, omit this field if the array is empty
+    "__description": <stirng>, // short description for the field
 }
 ```
 
@@ -176,23 +180,27 @@ The names of mandatory fields
         "__type": "string",
         "__omitEmpty": false,
         "__maxLen": <int>,
-        "__mandatory": "message"
+        "__mandatory": "message",
+        "__description": <stirng>, // short description for the field
     },
     "timestamp": { // Generate timestamp when calling for logging
         "__type": "time",
         "__fromCaller": true,
         "__timeFormat": <string>,
-        "__mandatory": "timestamp"
+        "__mandatory": "timestamp",
+        "__description": <stirng>, // short description for the field
     },
     "level": { // Severity can only be set with Info/Infof/Warn/... at the end
         "__type": "string",
         "__maxLen": 10,
-        "__mandatory": "loglevel"
+        "__mandatory": "loglevel",
+        "__description": <stirng>, // short description for the field
     },
     "caller": { // Generate caller of logger like "<file>:<line number>"
         "__type": "caller",
         "__maxLen": <int>,
-        "__mandatory": "caller"
+        "__mandatory": "caller",
+        "__description": <stirng>, // short description for the field
     }
 }
 ```

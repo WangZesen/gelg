@@ -5,16 +5,17 @@ import (
 )
 
 const (
-	typeField       = "__type"
-	omitEmptyField  = "__omitEmpty"
-	maxLenField     = "__maxLen"
-	mandatoryField  = "__mandatory"
-	fromCallerField = "__fromCaller"
-	timeFormatField = "__timeFormat"
-	requiredField   = "__required"
-	apiAliasField   = "__apiAlias"
-	defaultField    = "__default"
-	fromEnvField    = "__fromEnv"
+	typeField        = "__type"
+	omitEmptyField   = "__omitEmpty"
+	maxLenField      = "__maxLen"
+	mandatoryField   = "__mandatory"
+	fromCallerField  = "__fromCaller"
+	timeFormatField  = "__timeFormat"
+	requiredField    = "__required"
+	apiAliasField    = "__apiAlias"
+	defaultField     = "__default"
+	fromEnvField     = "__fromEnv"
+	descriptionField = "__description"
 )
 
 var internalFields = []string{
@@ -28,6 +29,7 @@ var internalFields = []string{
 	apiAliasField,
 	defaultField,
 	fromEnvField,
+	descriptionField,
 }
 
 const (
@@ -117,7 +119,7 @@ func checkMandatoryMessage(ctx map[string]interface{}, prefix, root string) erro
 	// check if unnecessary fields are included
 	for key := range ctx {
 		switch key {
-		case typeField, omitEmptyField, maxLenField, mandatoryField:
+		case typeField, omitEmptyField, maxLenField, mandatoryField, descriptionField:
 			continue
 		default:
 			return fmt.Errorf("unexpected field %s in mandatory message field: %s", key, prefix)
@@ -163,6 +165,15 @@ func checkMandatoryMessage(ctx map[string]interface{}, prefix, root string) erro
 		return fmt.Errorf("field %s not found in mandatory message field: %s", typeField, prefix)
 	}
 
+	// check __description
+	if raw, ok := ctx[descriptionField]; ok {
+		if _, ok := raw.(string); !ok {
+			return fmt.Errorf("field %s has wrong type in mandatory message field: %s. Expect: %s", typeField, prefix, "string")
+		}
+	} else {
+		return fmt.Errorf("field %s not found in mandatory message field: %s", typeField, prefix)
+	}
+
 	return nil
 }
 
@@ -178,7 +189,7 @@ func checkMandatoryTimestamp(ctx map[string]interface{}, prefix, root string) er
 	// check if unnecessary fields are included
 	for key := range ctx {
 		switch key {
-		case typeField, fromCallerField, timeFormatField, mandatoryField:
+		case typeField, fromCallerField, timeFormatField, mandatoryField, descriptionField:
 			continue
 		default:
 			return fmt.Errorf("unexpected field %s in mandatory timestamp field: %s", key, prefix)
@@ -224,6 +235,15 @@ func checkMandatoryTimestamp(ctx map[string]interface{}, prefix, root string) er
 		return fmt.Errorf("field %s not found in mandatory timestamp field: %s", typeField, prefix)
 	}
 
+	// check __description
+	if raw, ok := ctx[descriptionField]; ok {
+		if _, ok := raw.(string); !ok {
+			return fmt.Errorf("field %s has wrong type in mandatory timestamp field: %s. Expect: %s", typeField, prefix, "string")
+		}
+	} else {
+		return fmt.Errorf("field %s not found in mandatory timestamp field: %s", typeField, prefix)
+	}
+
 	return nil
 }
 
@@ -239,7 +259,7 @@ func checkMandatoryCaller(ctx map[string]interface{}, prefix, root string) error
 	// check if unnecessary fields are included
 	for key := range ctx {
 		switch key {
-		case typeField, maxLenField, mandatoryField:
+		case typeField, maxLenField, mandatoryField, descriptionField:
 			continue
 		default:
 			return fmt.Errorf("unexpected field %s in mandatory caller field: %s", key, prefix)
@@ -272,6 +292,15 @@ func checkMandatoryCaller(ctx map[string]interface{}, prefix, root string) error
 		return fmt.Errorf("field %s not found in mandatory caller field: %s", typeField, prefix)
 	}
 
+	// check __description
+	if raw, ok := ctx[descriptionField]; ok {
+		if _, ok := raw.(string); !ok {
+			return fmt.Errorf("field %s has wrong type in mandatory caller field: %s. Expect: %s", typeField, prefix, "string")
+		}
+	} else {
+		return fmt.Errorf("field %s not found in mandatory caller field: %s", typeField, prefix)
+	}
+
 	return nil
 }
 
@@ -287,7 +316,7 @@ func checkMandatoryLevel(ctx map[string]interface{}, prefix, root string) error 
 	// check if unnecessary fields are included
 	for key := range ctx {
 		switch key {
-		case typeField, maxLenField, mandatoryField:
+		case typeField, maxLenField, mandatoryField, descriptionField:
 			continue
 		default:
 			return fmt.Errorf("unexpected field %s in mandatory loglevel field: %s", key, prefix)
@@ -314,6 +343,15 @@ func checkMandatoryLevel(ctx map[string]interface{}, prefix, root string) error 
 				return fmt.Errorf("field %s has wrong value in mandatory loglevel field: %s. Expect: %s", timeFormatField, prefix, "string")
 			}
 		} else {
+			return fmt.Errorf("field %s has wrong type in mandatory loglevel field: %s. Expect: %s", typeField, prefix, "string")
+		}
+	} else {
+		return fmt.Errorf("field %s not found in mandatory loglevel field: %s", typeField, prefix)
+	}
+
+	// check __description
+	if raw, ok := ctx[descriptionField]; ok {
+		if _, ok := raw.(string); !ok {
 			return fmt.Errorf("field %s has wrong type in mandatory loglevel field: %s. Expect: %s", typeField, prefix, "string")
 		}
 	} else {
@@ -387,6 +425,15 @@ func checkStringContext(ctx map[string]interface{}, prefix, root string) error {
 		}
 	}
 
+	// check __description
+	if raw, ok := ctx[descriptionField]; ok {
+		if _, ok := raw.(string); !ok {
+			return fmt.Errorf("field %s has wrong type in string-type context: %s. Expect: %s", typeField, prefix, "string")
+		}
+	} else {
+		return fmt.Errorf("field %s not found in string-type context: %s", typeField, prefix)
+	}
+
 	return nil
 }
 
@@ -426,6 +473,15 @@ func checkIntContext(ctx map[string]interface{}, prefix, root string) error {
 		} else {
 			return fmt.Errorf("field %s has wrong type in int-typed context: %s. Expect: %s", apiAliasField, prefix, "string")
 		}
+	}
+
+	// check __description
+	if raw, ok := ctx[descriptionField]; ok {
+		if _, ok := raw.(string); !ok {
+			return fmt.Errorf("field %s has wrong type in int-type context: %s. Expect: %s", typeField, prefix, "string")
+		}
+	} else {
+		return fmt.Errorf("field %s not found in int-type context: %s", typeField, prefix)
 	}
 
 	return nil

@@ -89,7 +89,7 @@ func recursiveGenerate(ctx map[string]interface{}, prefix, root string) {
 			createIntApiMethodTest(ctx, prefix, root)
 		}
 	case mandatoryMessageCtx:
-		createStringDefinition(ctx, prefix, root)
+		createBuiltInMessageDefinition(ctx, prefix, root)
 		createStringNew(ctx, prefix, root)
 		createStringInitMethod(ctx, prefix, root)
 		createMandatoryMessageEventMethod(ctx, prefix, root)
@@ -98,7 +98,7 @@ func recursiveGenerate(ctx map[string]interface{}, prefix, root string) {
 		createTimeNew(ctx, prefix, root)
 		createTimeAssembleMethod(ctx, prefix, root)
 	case mandatoryCallerCtx:
-		createStringDefinition(ctx, prefix, root)
+		createBuiltInCallerDefinition(ctx, prefix, root)
 		createStringNew(ctx, prefix, root)
 		createStringInitMethod(ctx, prefix, root)
 		createMandatoryCallerEventMethod(ctx, prefix, root)

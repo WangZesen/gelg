@@ -3,35 +3,41 @@
         "__type": "string",
         "__omitEmpty": false,
         "__maxLen": 100,
-        "__mandatory": "message"
+        "__mandatory": "message",
+        "__description": "logging message"
     },
     "timestamp": {
         "__type": "time",
         "__fromCaller": true,
         "__timeFormat": "2006-01-02T15:04:05.999999999Z07:00",
-        "__mandatory": "timestamp"
+        "__mandatory": "timestamp",
+        "__description": "timestamp at logging"
     },
     "caller": {
         "__type": "caller",
         "__maxLen": 100,
-        "__mandatory": "caller"
+        "__mandatory": "caller",
+        "__description": "caller stack at logging"
     },
     "severity": {
         "__type": "string",
         "__maxLen": 10,
-        "__mandatory": "loglevel"
+        "__mandatory": "loglevel",
+        "__description": "severity"
     },
     "version": {
         "__type": "string",
         "__omitEmpty": false,
         "__maxLen": 100,
         "__required": true,
-        "__apiAlias": "Version"
+        "__apiAlias": "Version",
+        "__description": "log schema version"
     },
     "counter": {
         "__type": "int",
         "__required": false,
-        "__apiAlias": "Counter"
+        "__apiAlias": "Counter",
+        "__description": "counter information"
     },
     "data": {
         "url": {
@@ -39,7 +45,8 @@
             "__omitEmpty": true,
             "__maxLen": 100,
             "__required": false,
-            "__apiAlias": "IndexUrl"
+            "__apiAlias": "IndexUrl",
+            "__description": "website url"
         },
         "request": {
             "args": {
@@ -47,12 +54,14 @@
                 "__omitEmpty": true,
                 "__maxLen": 100,
                 "__fromEnv": "REQ_ARGS",
-                "__apiAlias": "Args"
+                "__apiAlias": "Args",
+                "__description": "request argument"
             },
             "userID": {
                 "__type": "int",
                 "__fromEnv": "USERID",
-                "__apiAlias": "UserId"
+                "__apiAlias": "UserId",
+                "__description": "user id"
             }
         }
     }

@@ -7,12 +7,20 @@ import (
 )
 
 type Logger struct {
+	// Event with pre-set/default values
 	Data *Event
+	// Writer for the logger
 	Writer io.Writer
-	Level LogLevel
+	// Logging level for the logger
+	Level logLevel
 }
 
-func NewLogger(writer io.Writer, level LogLevel) *Logger {
+// Create logger without any preset fields (except for defaults or from envs, etc.)
+//
+// Inputs:
+//  - writer: writer that fulfills io.Writer interface, pass nil if using default writer
+//  - level: logging level for the new logger, pass NULL (constant defined in this package) if using default level
+func NewLogger(writer io.Writer, level logLevel) *Logger {
 	logger := &Logger{}
 	logger.Data = getEvent()
 	if writer != nil {
@@ -28,7 +36,12 @@ func NewLogger(writer io.Writer, level LogLevel) *Logger {
 	return logger
 }
 
-func (e *Event) Logger(writer io.Writer, level LogLevel) *Logger {
+// Create logger with preset fields
+//
+// Inputs:
+//  - writer: writer that fulfills io.Writer interface, pass nil if using default writer
+//  - level: logging level for the new logger, pass NULL (constant defined in this package) if using default level
+func (e *Event) Logger(writer io.Writer, level logLevel) *Logger {
 	logger := &Logger{}
 	logger.Data = e
 	if writer != nil {
@@ -45,7 +58,7 @@ func (e *Event) Logger(writer io.Writer, level LogLevel) *Logger {
 }
 
 func (logger *Logger) getLoggerEvent() *Event {
-	e := EventPool.Get().(*Event)
+	e := eventPool.Get().(*Event)
 	e.__levelThres = logger.Level
 	e.__writer = logger.Writer
 
@@ -56,9 +69,12 @@ func (logger *Logger) getLoggerEvent() *Event {
 }
 
 // Logger Api Methods
+
 %s
 
 // Logger Output Methods
+
+// log plain string at TRACE level
 func (logger *Logger) Trace(msg string) {
 	if logger.Level <= TRACE {
 		e := logger.getLoggerEvent()
@@ -68,6 +84,7 @@ func (logger *Logger) Trace(msg string) {
 	}
 }
 
+// log plain string at DEBUG level
 func (logger *Logger) Debug(msg string) {
 	if logger.Level <= DEBUG {
 		e := logger.getLoggerEvent()
@@ -77,6 +94,7 @@ func (logger *Logger) Debug(msg string) {
 	}
 }
 
+// log plain string at INFO level
 func (logger *Logger) Info(msg string) {
 	if logger.Level <= INFO {
 		e := logger.getLoggerEvent()
@@ -86,6 +104,7 @@ func (logger *Logger) Info(msg string) {
 	}
 }
 
+// log plain string at WARN level
 func (logger *Logger) Warn(msg string) {
 	if logger.Level <= WARN {
 		e := logger.getLoggerEvent()
@@ -95,6 +114,7 @@ func (logger *Logger) Warn(msg string) {
 	}
 }
 
+// log plain string at ERROR level
 func (logger *Logger) Error(msg string) {
 	if logger.Level <= ERROR {
 		e := logger.getLoggerEvent()
@@ -104,6 +124,7 @@ func (logger *Logger) Error(msg string) {
 	}
 }
 
+// log plain string at FATAL level
 func (logger *Logger) Fatal(msg string) {
 	if logger.Level <= FATAL {
 		e := logger.getLoggerEvent()
@@ -114,6 +135,8 @@ func (logger *Logger) Fatal(msg string) {
 }
 
 // Logger Format Output Methods
+
+// log format string with arguments at TRACE level
 func (logger *Logger) Tracef(msg string, args ...interface{}) {
 	if logger.Level <= TRACE {
 		e := logger.getLoggerEvent()
@@ -123,6 +146,7 @@ func (logger *Logger) Tracef(msg string, args ...interface{}) {
 	}
 }
 
+// log format string with arguments at DEBUG level
 func (logger *Logger) Debugf(msg string, args ...interface{}) {
 	if logger.Level <= DEBUG {
 		e := logger.getLoggerEvent()
@@ -132,6 +156,7 @@ func (logger *Logger) Debugf(msg string, args ...interface{}) {
 	}
 }
 
+// log format string with arguments at INFO level
 func (logger *Logger) Infof(msg string, args ...interface{}) {
 	if logger.Level <= INFO {
 		e := logger.getLoggerEvent()
@@ -141,6 +166,7 @@ func (logger *Logger) Infof(msg string, args ...interface{}) {
 	}
 }
 
+// log format string with arguments at WARN level
 func (logger *Logger) Warnf(msg string, args ...interface{}) {
 	if logger.Level <= WARN {
 		e := logger.getLoggerEvent()
@@ -150,6 +176,7 @@ func (logger *Logger) Warnf(msg string, args ...interface{}) {
 	}
 }
 
+// log format string with arguments at ERROR level
 func (logger *Logger) Errorf(msg string, args ...interface{}) {
 	if logger.Level <= ERROR {
 		e := logger.getLoggerEvent()
@@ -159,6 +186,7 @@ func (logger *Logger) Errorf(msg string, args ...interface{}) {
 	}
 }
 
+// log format string with arguments at FATAL level
 func (logger *Logger) Fatalf(msg string, args ...interface{}) {
 	if logger.Level <= FATAL {
 		e := logger.getLoggerEvent()

@@ -27,7 +27,11 @@ func createStringEventMethod(ctx map[string]interface{}, prefix, root string) {
 		apiAlias = raw.(string)
 	}
 	maxLen := int(ctx[maxLenField].(float64))
-	out := fmt.Sprintf(eventMethodStart, UpperFirst(apiAlias), "string")
+	// Create Comment
+	out := fmt.Sprintf("// Setter method of %s on event\n//\n", prefix)
+	out += fmt.Sprintf("// Description: %s\n", ctx[descriptionField].(string))
+	// Create Method
+	out += fmt.Sprintf(eventMethodStart, UpperFirst(apiAlias), "string")
 	out += fmt.Sprintf("if len(data) <= %d {\n", maxLen)
 	out += fmt.Sprintf("e.%s = appendString(e.%s[:0], data)\n", prefix, prefix)
 	out += fmt.Sprintf("} else {\n")
@@ -45,7 +49,11 @@ func createStringApiMethod(ctx map[string]interface{}, prefix, root string) {
 		apiAlias = raw.(string)
 	}
 	maxLen := int(ctx[maxLenField].(float64))
-	out := fmt.Sprintf(apiMethodStart, UpperFirst(apiAlias), "string")
+	// Create Comment
+	out := fmt.Sprintf("// Setter method of %s\n//\n", prefix)
+	out += fmt.Sprintf("// Description: %s\n", ctx[descriptionField].(string))
+	// Create Method
+	out += fmt.Sprintf(apiMethodStart, UpperFirst(apiAlias), "string")
 	out += fmt.Sprintf("if len(data) <= %d {\n", maxLen)
 	out += fmt.Sprintf("e.%s = appendString(e.%s[:0], data)\n", prefix, prefix)
 	out += fmt.Sprintf("} else {\n")
@@ -63,7 +71,11 @@ func createStringLoggerApiMethod(ctx map[string]interface{}, prefix, root string
 		apiAlias = raw.(string)
 	}
 	maxLen := int(ctx[maxLenField].(float64))
-	out := fmt.Sprintf(loggerApiMethodStart, UpperFirst(apiAlias), "string")
+	// Create Comment
+	out := fmt.Sprintf("// Setter method of %s on logger\n//\n", prefix)
+	out += fmt.Sprintf("// Description: %s\n", ctx[descriptionField].(string))
+	// Create Method
+	out += fmt.Sprintf(loggerApiMethodStart, UpperFirst(apiAlias), "string")
 	out += fmt.Sprintf("if len(data) <= %d {\n", maxLen)
 	out += fmt.Sprintf("e.%s = appendString(e.%s[:0], data)\n", prefix, prefix)
 	out += fmt.Sprintf("} else {\n")
@@ -80,7 +92,11 @@ func createIntEventMethod(ctx map[string]interface{}, prefix, root string) {
 	if raw, ok := ctx[apiMethod]; ok {
 		apiAlias = raw.(string)
 	}
-	out := fmt.Sprintf(eventMethodStart, UpperFirst(apiAlias), "int64")
+	// Create Comment
+	out := fmt.Sprintf("// Setter method of %s on event\n//\n", prefix)
+	out += fmt.Sprintf("// Description: %s\n", ctx[descriptionField].(string))
+	// Create Method
+	out += fmt.Sprintf(eventMethodStart, UpperFirst(apiAlias), "int64")
 	out += fmt.Sprintf("e.%s = data\n", prefix)
 	if needChangeFlag(ctx) {
 		out += fmt.Sprintf("e.%s = true\n", addChangeFlagPrefix(prefix))
@@ -93,7 +109,11 @@ func createIntApiMethod(ctx map[string]interface{}, prefix, root string) {
 	if raw, ok := ctx[apiMethod]; ok {
 		apiAlias = raw.(string)
 	}
-	out := fmt.Sprintf(apiMethodStart, UpperFirst(apiAlias), "int64")
+	// Create Comment
+	out := fmt.Sprintf("// Setter method of %s\n//\n", prefix)
+	out += fmt.Sprintf("// Description: %s\n", ctx[descriptionField].(string))
+	// Create Method
+	out += fmt.Sprintf(apiMethodStart, UpperFirst(apiAlias), "int64")
 	out += fmt.Sprintf("e.%s = data\n", prefix)
 	if needChangeFlag(ctx) {
 		out += fmt.Sprintf("e.%s = true\n", addChangeFlagPrefix(prefix))
@@ -106,7 +126,11 @@ func createIntLoggerApiMethod(ctx map[string]interface{}, prefix, root string) {
 	if raw, ok := ctx[apiMethod]; ok {
 		apiAlias = raw.(string)
 	}
-	out := fmt.Sprintf(loggerApiMethodStart, UpperFirst(apiAlias), "int64")
+	// Create Comment
+	out := fmt.Sprintf("// Setter method of %s on logger\n//\n", prefix)
+	out += fmt.Sprintf("// Description: %s\n", ctx[descriptionField].(string))
+	// Create Method
+	out += fmt.Sprintf(loggerApiMethodStart, UpperFirst(apiAlias), "int64")
 	out += fmt.Sprintf("e.%s = data\n", prefix)
 	if needChangeFlag(ctx) {
 		out += fmt.Sprintf("e.%s = true\n", addChangeFlagPrefix(prefix))

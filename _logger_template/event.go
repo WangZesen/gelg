@@ -12,15 +12,18 @@ var extraStackSkip = 0
 
 // Event Definition
 type Event struct {
-	__levelThres LogLevel
+	__levelThres logLevel
 	__writer     io.Writer
 	%s
 }
 
 // Event Method
+
 %s
 
 // Event Output Method
+
+// log plain string at TRACE level
 func (e *Event) Trace(msg string) {
 	if e.getLogLevel() <= TRACE {
 		e.setMessage(msg)
@@ -31,6 +34,7 @@ func (e *Event) Trace(msg string) {
 	}
 }
 
+// log plain string at DEBUG level
 func (e *Event) Debug(msg string) {
 	if e.getLogLevel() <= DEBUG {
 		e.setMessage(msg)
@@ -41,6 +45,7 @@ func (e *Event) Debug(msg string) {
 	}
 }
 
+// log plain string at INFO level
 func (e *Event) Info(msg string) {
 	if e.getLogLevel() <= INFO {
 		e.setMessage(msg)
@@ -51,6 +56,7 @@ func (e *Event) Info(msg string) {
 	}
 }
 
+// log plain string at WARN level
 func (e *Event) Warn(msg string) {
 	if e.getLogLevel() <= WARN {
 		e.setMessage(msg)
@@ -61,6 +67,7 @@ func (e *Event) Warn(msg string) {
 	}
 }
 
+// log plain string at ERROR level
 func (e *Event) Error(msg string) {
 	if e.getLogLevel() <= ERROR {
 		e.setMessage(msg)
@@ -71,6 +78,7 @@ func (e *Event) Error(msg string) {
 	}
 }
 
+// log plain string at FATAL level
 func (e *Event) Fatal(msg string) {
 	if e.getLogLevel() <= FATAL {
 		e.setMessage(msg)
@@ -82,6 +90,8 @@ func (e *Event) Fatal(msg string) {
 }
 
 // Event Format Output Method
+
+// log format string with arguments at TRACE level
 func (e *Event) Tracef(msg string, args... interface{}) {
 	if e.getLogLevel() <= TRACE {
 		e.setMessage(fmt.Sprintf(msg, args...))
@@ -92,6 +102,7 @@ func (e *Event) Tracef(msg string, args... interface{}) {
 	}
 }
 
+// log format string with arguments at DEBUG level
 func (e *Event) Debugf(msg string, args... interface{}) {
 	if e.getLogLevel() <= DEBUG {
 		e.setMessage(fmt.Sprintf(msg, args...))
@@ -102,6 +113,7 @@ func (e *Event) Debugf(msg string, args... interface{}) {
 	}
 }
 
+// log format string with arguments at INFO level
 func (e *Event) Infof(msg string, args... interface{}) {
 	if e.getLogLevel() <= INFO {
 		e.setMessage(fmt.Sprintf(msg, args...))
@@ -112,6 +124,7 @@ func (e *Event) Infof(msg string, args... interface{}) {
 	}
 }
 
+// log format string with arguments at WARN level
 func (e *Event) Warnf(msg string, args... interface{}) {
 	if e.getLogLevel() <= WARN {
 		e.setMessage(fmt.Sprintf(msg, args...))
@@ -122,6 +135,7 @@ func (e *Event) Warnf(msg string, args... interface{}) {
 	}
 }
 
+// log format string with arguments at ERROR level
 func (e *Event) Errorf(msg string, args... interface{}) {
 	if e.getLogLevel() <= ERROR {
 		e.setMessage(fmt.Sprintf(msg, args...))
@@ -132,6 +146,7 @@ func (e *Event) Errorf(msg string, args... interface{}) {
 	}
 }
 
+// log format string with arguments at FATAL level
 func (e *Event) Fatalf(msg string, args... interface{}) {
 	if e.getLogLevel() <= FATAL {
 		e.setMessage(fmt.Sprintf(msg, args...))
@@ -152,7 +167,7 @@ func (e *Event) setCaller() {
 }
 
 // Get LogLevel
-func (e *Event) getLogLevel() LogLevel {
+func (e *Event) getLogLevel() logLevel {
 	return e.__levelThres
 }
 

@@ -1,3 +1,25 @@
+/*
+Package for the generated logger
+
+General Usage:
+  - Insert the code into your projects
+  - import by `log "<package-name>/<rel-path-to-logger-in-proj>"`
+
+There are several components:
+  - Event
+  - Logger
+
+Event:
+  - after setting a value by log.SetXxx, it will return an event
+  - event has methods to continue setting values using (*Event).SetXxx (defined by apiAlias)
+  - event has methods to log using (*Event).Info, (*Event).Infof, (*Event).Warn, ... (log in format/plain string in 6 levels)
+  - event has method to create logger using (*Event).Logger, it will create logger which uses the values in the Event as default value
+
+Logger:
+  - logger is initiated by (*Event).Logger or log.NewLogger
+  - logger has methods to continue setting values using (*Event).SetXxx (defined by apiAlias), which will return an Event
+  - event has methods to log using (*Event).Info, (*Event).Infof, (*Event).Warn, ... (log in format/plain string in 6 levels)
+*/
 package log
 
 import (
@@ -9,11 +31,12 @@ import (
 	ilog "log"
 )
 
-type LogLevel int8
+type logLevel int8
 
-// Logging Levels
+// Logging Levels: 6 levels in total.
+// Trace, Debug, Info, Warn, Error, Fatal
 const (
-	NULL  LogLevel = iota
+	NULL  logLevel = iota
 	TRACE
 	DEBUG
 	INFO
@@ -22,7 +45,7 @@ const (
 	FATAL
 )
 
-var LevelStr = map[LogLevel]([]byte){
+var levelStr = map[logLevel]([]byte){
 	NULL: []byte("NULL"),
 	TRACE: []byte("TRACE"),
 	DEBUG: []byte("DEBUG"),
@@ -36,7 +59,7 @@ var LevelStr = map[LogLevel]([]byte){
 var (
 	defaultWriter io.Writer     = os.Stdout
 	defaultWarnWriter io.Writer = os.Stderr
-	defaultLevel LogLevel       = INFO
+	defaultLevel logLevel       = INFO
 	warnLogger *ilog.Logger     = ilog.New(os.Stderr, "", ilog.Ldate | ilog.Ltime)
 )
 
@@ -49,16 +72,22 @@ func init() {
 	ilog.SetOutput(defaultWarnWriter)
 }
 
+// set the default writer for logging.
+// default is os.Stdout
 func GSetDefaultWriter(writer io.Writer) {
 	defaultWriter = writer
 }
 
+// set the default writer for warning of logging (unset required fields, etc.).
+// default is os.Stderr
 func GSetDefaultWarnWriter(writer io.Writer) {
 	defaultWarnWriter = writer
 	warnLogger = ilog.New(writer, "", ilog.Ldate | ilog.Ltime)
 }
 
-func GSetDefaultLevel(level LogLevel) {
+// set the default level for logging.
+// default is INFO
+func GSetDefaultLevel(level logLevel) {
 	defaultLevel = level
 }
 
@@ -67,9 +96,12 @@ func collectEnvVar() {
 }
 
 // Api Method
+
 %s
 
 // Output Method
+
+// log plain string at TRACE level
 func Trace(msg string) {
 	if defaultLevel <= TRACE {
 		e := getEvent()
@@ -79,6 +111,7 @@ func Trace(msg string) {
 	}
 }
 
+// log plain string at DEBUG level
 func Debug(msg string) {
 	if defaultLevel <= DEBUG {
 		e := getEvent()
@@ -88,6 +121,7 @@ func Debug(msg string) {
 	}
 }
 
+// log plain string at INFO level
 func Info(msg string) {
 	if defaultLevel <= INFO {
 		e := getEvent()
@@ -97,6 +131,7 @@ func Info(msg string) {
 	}
 }
 
+// log plain string at WARN level
 func Warn(msg string) {
 	if defaultLevel <= WARN {
 		e := getEvent()
@@ -106,6 +141,7 @@ func Warn(msg string) {
 	}
 }
 
+// log plain string at ERROR level
 func Error(msg string) {
 	if defaultLevel <= ERROR {
 		e := getEvent()
@@ -115,6 +151,7 @@ func Error(msg string) {
 	}
 }
 
+// log plain string at FATAL level
 func Fatal(msg string) {
 	if defaultLevel <= FATAL {
 		e := getEvent()
@@ -125,6 +162,8 @@ func Fatal(msg string) {
 }
 
 // Formatted Output Method
+
+// log format string with arguments at TRACE level
 func Tracef(msg string, args... interface{}) {
 	if defaultLevel <= TRACE {
 		e := getEvent()
@@ -134,6 +173,7 @@ func Tracef(msg string, args... interface{}) {
 	}
 }
 
+// log format string with arguments at DEBUG level
 func Debugf(msg string, args... interface{}) {
 	if defaultLevel <= DEBUG {
 		e := getEvent()
@@ -143,6 +183,7 @@ func Debugf(msg string, args... interface{}) {
 	}
 }
 
+// log format string with arguments at INFO level
 func Infof(msg string, args... interface{}) {
 	if defaultLevel <= INFO {
 		e := getEvent()
@@ -152,6 +193,7 @@ func Infof(msg string, args... interface{}) {
 	}
 }
 
+// log format string with arguments at WARN level
 func Warnf(msg string, args... interface{}) {
 	if defaultLevel <= WARN {
 		e := getEvent()
@@ -161,6 +203,7 @@ func Warnf(msg string, args... interface{}) {
 	}
 }
 
+// log format string with arguments at ERROR level
 func Errorf(msg string, args... interface{}) {
 	if defaultLevel <= ERROR {
 		e := getEvent()
@@ -170,6 +213,7 @@ func Errorf(msg string, args... interface{}) {
 	}
 }
 
+// log format string with arguments at FATAL level
 func Fatalf(msg string, args... interface{}) {
 	if defaultLevel <= FATAL {
 		e := getEvent()
