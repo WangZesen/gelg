@@ -66,7 +66,7 @@ Also, the tool generates unit tests along with the code, and high percentage of 
 
 ### Install
 ```
-go install github.com/WangZesen/EfficientLoggerGenerator@latest
+go install github.com/WangZesen/gelg@latest
 ```
 
 Make sure `$GOPATH/bin` has been included in `$PATH`.
